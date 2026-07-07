@@ -1,0 +1,14 @@
+# Node
+frontend/node_modules/
+
+# Python
+backend/venv/
+backend/__pycache__/
+backend/.env
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db

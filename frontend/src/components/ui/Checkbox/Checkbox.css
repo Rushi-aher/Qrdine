@@ -1,0 +1,12 @@
+.qr-checkbox{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:20px 0;
+    cursor:pointer;
+}
+
+.qr-checkbox input{
+    width:18px;
+    height:18px;
+}

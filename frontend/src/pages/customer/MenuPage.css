@@ -1,0 +1,97 @@
+.menu-page{
+
+    min-height:100vh;
+
+    background:#f5f7fa;
+
+}
+
+.restaurant-banner{
+
+    background:#198754;
+
+    color:white;
+
+    padding:60px 40px;
+
+}
+
+.restaurant-banner h1{
+
+    font-size:42px;
+
+}
+
+.restaurant-banner p{
+
+    margin-top:10px;
+
+}
+
+.category-bar{
+
+    display:flex;
+
+    gap:15px;
+
+    padding:25px 40px;
+
+    overflow:auto;
+
+}
+
+.category-bar button{
+
+    border:none;
+
+    background:white;
+
+    padding:12px 22px;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.food-grid{
+
+    padding:40px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+    gap:30px;
+
+}
+
+@media(max-width:768px){
+
+    .restaurant-banner{
+
+        padding:40px 20px;
+
+    }
+
+    .restaurant-banner h1{
+
+        font-size:30px;
+
+    }
+
+    .category-bar{
+
+        padding:20px;
+
+    }
+
+    .food-grid{
+
+        padding:20px;
+
+    }
+
+}

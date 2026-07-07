@@ -1,0 +1,69 @@
+.qr-input-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    width:100%;
+
+}
+
+.qr-label{
+
+    font-weight:600;
+
+    color:var(--text);
+
+}
+
+.required{
+
+    color:var(--danger);
+
+    margin-left:3px;
+
+}
+
+.qr-input{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-md);
+
+    outline:none;
+
+    transition:.25s;
+
+    background:white;
+
+    font-size:15px;
+
+}
+
+.qr-input:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 0 3px rgba(22,163,74,.15);
+
+}
+
+.qr-input-error{
+
+    border-color:var(--danger);
+
+}
+
+.qr-error{
+
+    color:var(--danger);
+
+    font-size:13px;
+
+}
