@@ -1,13 +1,12 @@
-from pydantic import BaseModel, EmailStr, ConfigDict
-
-from app.models.user import UserRole
+from pydantic import BaseModel, EmailStr
+from typing import Literal
 
 
 class UserCreate(BaseModel):
     full_name: str
     email: EmailStr
     password: str
-    role: UserRole
+    role: Literal["owner", "customer"]
 
 
 class UserLogin(BaseModel):
@@ -19,7 +18,13 @@ class UserResponse(BaseModel):
     id: int
     full_name: str
     email: EmailStr
-    role: UserRole
+    role: str
     is_active: bool
 
-    model_config = ConfigDict(from_attributes=True)
+    class Config:
+        from_attributes = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

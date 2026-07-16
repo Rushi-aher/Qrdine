@@ -1,0 +1,9 @@
+from .auth import router as auth_router
+from .restaurant import router as restaurant_router
+from .table import router as table_router
+from .category import router as category_router
+from .food_item import router as food_item_router
+from .menu import router as menu_router
+from .order import router as order_router
+from .dashboard import router as dashboard_router
+from .menu import router as menu_router

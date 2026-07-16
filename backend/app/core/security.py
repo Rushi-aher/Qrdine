@@ -1,37 +1,46 @@
 from datetime import datetime, timedelta, timezone
-from typing import Any
 
 from jose import jwt
 from passlib.context import CryptContext
 
 from app.core.config import settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(
+    schemes=["bcrypt"],
+    deprecated="auto"
+)
 
 
-def hash_password(password: str) -> str:
+def hash_password(password: str):
+    print("Hashing:", password)
     return pwd_context.hash(password)
 
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+def verify_password(plain_password: str, hashed_password: str):
+    print("Plain:", plain_password)
+    print("Hash :", hashed_password)
+
+    result = pwd_context.verify(
+        plain_password,
+        hashed_password,
+    )
+
+    print("Verified:", result)
+
+    return result
 
 
-def create_access_token(subject: Any, expires_delta: timedelta | None = None) -> str:
-    if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
-    else:
-        expire = datetime.now(timezone.utc) + timedelta(
-            minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
-        )
+def create_access_token(data: dict):
+    to_encode = data.copy()
 
-    payload = {
-        "sub": str(subject),
-        "exp": expire,
-    }
+    expire = datetime.now(timezone.utc) + timedelta(
+        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
+    )
+
+    to_encode.update({"exp": expire})
 
     return jwt.encode(
-        payload,
+        to_encode,
         settings.SECRET_KEY,
         algorithm=settings.ALGORITHM,
     )

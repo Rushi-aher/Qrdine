@@ -16,3 +16,7 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+from app.models.user import User
+from app.models.restaurant import Restaurant
+from app.models.table import RestaurantTable
+from app.models.category import Category
