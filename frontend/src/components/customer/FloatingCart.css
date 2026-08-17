@@ -1,71 +1,106 @@
-.floating-cart{
+.floating-cart {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
 
-    position:fixed;
+    width: min(700px, calc(100% - 30px));
 
-    bottom:25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    left:50%;
+    padding: 14px 16px 14px 20px;
 
-    transform:translateX(-50%);
+    background: #222;
+    color: white;
 
-    width:min(700px,90%);
+    border-radius: 18px;
 
-    background:#198754;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
 
-    color:white;
+    z-index: 100;
 
-    border-radius:18px;
-
-    padding:18px 25px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    box-shadow:0 15px 40px rgba(0,0,0,.2);
-
+    animation: cartSlideUp 0.3s ease;
 }
 
-.floating-cart p{
-
-    margin-top:5px;
-
+.floating-cart strong {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 3px;
 }
 
-.floating-cart button{
-
-    background:white;
-
-    color:#198754;
-
-    border:none;
-
-    padding:12px 22px;
-
-    border-radius:12px;
-
-    font-weight:bold;
-
-    display:flex;
-
-    gap:10px;
-
-    align-items:center;
-
-    cursor:pointer;
-
+.floating-cart p {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
 }
 
-@media(max-width:768px){
+.floating-cart button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-.floating-cart{
+    border: none;
 
-bottom:10px;
+    background: #198754;
+    color: white;
 
-padding:15px;
+    padding: 12px 20px;
 
+    border-radius: 12px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
 }
 
+.floating-cart button:hover {
+    background: #157347;
+    transform: translateY(-1px);
+}
+
+.floating-cart button svg {
+    font-size: 15px;
+}
+
+@keyframes cartSlideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .floating-cart {
+        width: calc(100% - 24px);
+        bottom: 12px;
+
+        padding: 12px 12px 12px 16px;
+
+        border-radius: 15px;
+    }
+
+    .floating-cart strong {
+        font-size: 14px;
+    }
+
+    .floating-cart p {
+        font-size: 16px;
+    }
+
+    .floating-cart button {
+        padding: 11px 15px;
+        border-radius: 10px;
+        font-size: 13px;
+    }
 }

@@ -175,3 +175,28 @@ def remove_table(
     return {
         "message": "Table deleted successfully"
     }
+
+@router.get(
+    "/public/{restaurant_id}",
+    response_model=list[TableResponse],
+)
+def list_public_tables(
+    restaurant_id: int,
+    db: Session = Depends(get_db),
+):
+    restaurant = (
+        db.query(Restaurant)
+        .filter(Restaurant.id == restaurant_id)
+        .first()
+    )
+
+    if restaurant is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Restaurant not found",
+        )
+
+    return get_tables(
+        db,
+        restaurant.id,
+    )

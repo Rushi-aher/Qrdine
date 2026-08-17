@@ -1,0 +1,91 @@
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:1000;
+
+}
+
+.product-modal{
+
+    width:450px;
+
+    background:var(--surface);
+
+    border-radius:var(--radius-lg);
+
+    padding:30px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    box-shadow:var(--shadow-hover);
+
+}
+
+.product-modal input{
+
+    padding:14px;
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-md);
+
+    outline:none;
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:15px;
+
+}
+
+.cancel-btn{
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:var(--radius-md);
+
+    background:#9ca3af;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+.save-btn{
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:var(--radius-md);
+
+    background:var(--primary);
+
+    color:white;
+
+    cursor:pointer;
+
+}

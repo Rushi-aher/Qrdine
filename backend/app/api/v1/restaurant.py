@@ -69,7 +69,23 @@ def add_restaurant(
         new_restaurant,
     )
 
+#------------------------------
+# -----------------------------
+# Public Restaurant List
+# -----------------------------
+@router.get(
+    "/public",
+    response_model=list[RestaurantResponse],
+)
+def get_public_restaurants(
+    db: Session = Depends(get_db),
+):
+    restaurants = (
+        db.query(Restaurant)
+        .all()
+    )
 
+    return restaurants
 # -----------------------------
 # Get My Restaurant
 # -----------------------------
@@ -96,6 +112,7 @@ def get_my_restaurant(
 # -----------------------------
 # Update My Restaurant
 # -----------------------------
+
 @router.put("/me", response_model=RestaurantResponse)
 def edit_restaurant(
     name: str = Form(...),
@@ -138,3 +155,25 @@ def edit_restaurant(
         db,
         restaurant,
     )
+
+@router.get("/public")
+def get_restaurants(
+    db: Session = Depends(get_db),
+):
+
+    restaurants = db.query(Restaurant).all()
+
+    return [
+
+        {
+            "id": restaurant.id,
+            "name": restaurant.name,
+            "description": restaurant.description,
+            "address": restaurant.address,
+            "logo": restaurant.logo,
+            "banner": restaurant.banner,
+        }
+
+        for restaurant in restaurants
+
+    ]

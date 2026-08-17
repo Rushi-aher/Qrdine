@@ -24,20 +24,3 @@ def update_order(db: Session, order: Order):
     db.commit()
     db.refresh(order)
     return order
-
-from sqlalchemy.orm import joinedload
-
-from app.models.order import Order
-
-
-def get_orders(db, restaurant_id: int):
-    return (
-        db.query(Order)
-        .options(
-            joinedload(Order.table),
-            joinedload(Order.order_items).joinedload("food_item"),
-        )
-        .filter(Order.restaurant_id == restaurant_id)
-        .order_by(Order.created_at.desc())
-        .all()
-    )

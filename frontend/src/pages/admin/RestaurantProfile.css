@@ -1,0 +1,100 @@
+.restaurant-profile {
+    padding: 32px;
+    max-width: 900px;
+}
+
+.restaurant-profile-header {
+    margin-bottom: 28px;
+}
+
+.restaurant-profile-header h1 {
+    margin: 0 0 8px;
+}
+
+.restaurant-profile-header p {
+    margin: 0;
+    color: #777;
+}
+
+.restaurant-profile-form {
+    background: #fff;
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 11px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.time-row {
+    display: flex;
+    gap: 20px;
+}
+
+.time-row .form-group {
+    flex: 1;
+}
+
+.restaurant-profile-form button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.restaurant-profile-form button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.profile-success {
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #e8f7e8;
+    color: #267326;
+}
+
+.profile-error {
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #fdeaea;
+    color: #b42323;
+}
+
+@media (max-width: 700px) {
+
+    .restaurant-profile {
+        padding: 20px;
+    }
+
+    .time-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+}

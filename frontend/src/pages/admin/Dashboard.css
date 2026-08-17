@@ -1,0 +1,244 @@
+.dashboard{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:35px;
+
+}
+
+.dashboard-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.dashboard-top h1{
+
+    font-size:34px;
+
+}
+
+.dashboard-top p{
+
+    margin-top:8px;
+
+    color:var(--text-light);
+
+}
+
+.dashboard-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    font-size:22px;
+
+}
+
+.profile-avatar{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:700;
+
+}
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+    gap:24px;
+
+}
+
+.dashboard-bottom{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:24px;
+
+}
+
+.recent-orders,
+.quick-actions{
+
+    background:white;
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-card);
+
+    padding:25px;
+
+}
+
+.section-title{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    margin-bottom:25px;
+
+}
+
+.order-card{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 0;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.order-card:last-child{
+
+    border:none;
+
+}
+
+.order-card p{
+
+    color:var(--text-light);
+
+}
+
+.status{
+
+    color:white;
+
+    padding:8px 18px;
+
+    border-radius:40px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.pending{
+
+    background:#f59e0b;
+
+}
+
+.preparing{
+
+    background:#3b82f6;
+
+}
+
+.ready{
+
+    background:#16a34a;
+
+}
+
+.quick-actions{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.quick-actions button{
+
+    border:none;
+
+    margin-bottom:15px;
+
+    padding:16px;
+
+    border-radius:12px;
+
+    background:var(--background);
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:15px;
+
+    transition:.25s;
+
+}
+
+.quick-actions button:hover{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+@media(max-width:1000px){
+
+    .dashboard-bottom{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .dashboard-top{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:20px;
+
+    }
+
+    .order-card{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:12px;
+
+    }
+
+}

@@ -19,6 +19,7 @@ from app.schemas.food_item import (
     FoodItemResponse,
     FoodItemUpdate,
 )
+
 from app.services.food_item_service import (
     create_food_item,
     delete_food_item,
@@ -28,7 +29,6 @@ from app.services.food_item_service import (
 )
 
 from app.utils.file_upload import save_image
-
 
 router = APIRouter(
     prefix="/food-items",
@@ -88,7 +88,20 @@ def add_food_item(
         is_available=is_available,
     )
 
-    return create_food_item(db, item)
+    item = create_food_item(db, item)
+
+    return {
+    "id": item.id,
+    "restaurant_id": item.restaurant_id,
+    "category_id": item.category_id,
+    "category": item.category.name,
+    "name": item.name,
+    "description": item.description,
+    "price": item.price,
+    "image": item.image,
+    "available_quantity": item.available_quantity,
+    "is_available": item.is_available,
+}
 
 
 @router.get("", response_model=list[FoodItemResponse])
@@ -96,6 +109,7 @@ def list_food_items(
     db: Session = Depends(get_db),
     current_user=Depends(owner_required),
 ):
+
     restaurant = (
         db.query(Restaurant)
         .filter(Restaurant.owner_id == current_user.id)
@@ -103,13 +117,35 @@ def list_food_items(
     )
 
     if restaurant is None:
+
         raise HTTPException(
             status_code=404,
             detail="Restaurant not found",
         )
 
-    return get_food_items(db, restaurant.id)
+    items = get_food_items(
+        db,
+        restaurant.id,
+    )
 
+    return [
+
+        {
+            "id": item.id,
+            "restaurant_id": item.restaurant_id,
+            "category_id": item.category_id,
+            "category": item.category.name,
+            "name": item.name,
+            "description": item.description,
+            "price": item.price,
+            "image": item.image,
+            "available_quantity": item.available_quantity,
+            "is_available": item.is_available,
+        }
+
+        for item in items
+
+    ]
 
 @router.put("/{item_id}", response_model=FoodItemResponse)
 def edit_food_item(
@@ -136,10 +172,7 @@ def edit_food_item(
             detail="Restaurant not found",
         )
 
-    food_item = get_food_item(
-        db,
-        item_id,
-    )
+    food_item = get_food_item(db, item_id)
 
     if food_item is None:
         raise HTTPException(
@@ -178,10 +211,24 @@ def edit_food_item(
     if image is not None:
         food_item.image = save_image(image)
 
-    return update_food_item(
+    food_item = update_food_item(
         db,
         food_item,
     )
+
+    return {
+        "id": food_item.id,
+        "restaurant_id": food_item.restaurant_id,
+        "category_id": food_item.category_id,
+        "category": food_item.category.name,
+        "name": food_item.name,
+        "description": food_item.description,
+        "price": food_item.price,
+        "image": food_item.image,
+        "available_quantity": food_item.available_quantity,
+        "is_available": food_item.is_available,
+    }
+
 
 @router.delete("/{item_id}")
 def remove_food_item(

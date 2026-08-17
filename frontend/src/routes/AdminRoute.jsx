@@ -6,11 +6,13 @@ const AdminRoute = ({ children }) => {
 
     const { user } = useAuth();
 
-    if (!user)
+    if (!user) {
         return <Navigate to="/login" replace />;
+    }
 
-    if (user.role !== "admin")
+    if (user.role !== "OWNER") {
         return <Navigate to="/restaurant-search" replace />;
+    }
 
     return children;
 

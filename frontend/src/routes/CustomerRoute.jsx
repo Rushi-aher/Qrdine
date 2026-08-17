@@ -6,11 +6,13 @@ const CustomerRoute = ({ children }) => {
 
     const { user } = useAuth();
 
-    if (!user)
+    if (!user) {
         return <Navigate to="/login" replace />;
+    }
 
-    if (user.role !== "customer")
+    if (user.role === "OWNER") {
         return <Navigate to="/admin/dashboard" replace />;
+    }
 
     return children;
 

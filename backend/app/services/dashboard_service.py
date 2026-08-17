@@ -81,7 +81,15 @@ def get_dashboard_stats(db: Session, restaurant_id: int):
         )
         .count()
     )
-
+    recent_orders = (
+    db.query(Order)
+    .filter(
+        Order.restaurant_id == restaurant_id,
+    )
+    .order_by(Order.created_at.desc())
+    .limit(5)
+    .all()
+    )
     return {
         "today_orders": today_orders,
         "pending_orders": pending_orders,

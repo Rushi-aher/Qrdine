@@ -1,0 +1,237 @@
+.sidebar {
+
+    width: 270px;
+
+    height: 100vh;
+
+    background: var(--surface);
+
+    border-right: 1px solid var(--border);
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    transition: all .3s ease;
+
+    box-shadow: var(--shadow-card);
+
+}
+
+.sidebar.closed {
+
+    width: 90px;
+
+}
+
+.sidebar-top {
+
+    padding: 22px 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+.sidebar-logo {
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:flex-start;
+
+}
+
+.sidebar-logo h2{
+
+    color:var(--text);
+
+    font-size:20px;
+
+    font-weight:700;
+
+}
+
+.sidebar-logo img {
+
+    width: 48px;
+
+    height: 48px;
+
+    object-fit: contain;
+
+}
+
+.sidebar-logo h2 {
+
+    color: var(--primary);
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+}
+
+.sidebar-toggle {
+
+    width: 40px;
+
+    height: 40px;
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+    border-radius: 10px;
+
+    transition: .25s;
+
+}
+
+.sidebar-toggle:hover {
+
+    background: var(--background);
+
+}
+
+.sidebar-nav {
+
+    margin-top: 10px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    padding: 0 12px;
+
+}
+
+.sidebar-nav a {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 14px 16px;
+
+    color: var(--text);
+
+    text-decoration: none;
+
+    border-radius: var(--radius-md);
+
+    transition: .25s;
+
+    font-weight: 500;
+
+}
+
+.sidebar-nav a svg {
+
+    font-size: 20px;
+
+    min-width: 22px;
+
+}
+
+.sidebar-nav a:hover {
+
+    background: rgba(22,163,74,.08);
+
+    color: var(--primary);
+
+}
+
+.sidebar-nav a.active {
+
+    background: var(--primary);
+
+    color: var(--white);
+
+    box-shadow: var(--shadow-card);
+
+}
+
+.sidebar.closed .sidebar-nav span {
+
+    display: none;
+
+}
+
+.sidebar.closed .sidebar-logo h2 {
+
+    display: none;
+
+}
+
+.sidebar.closed .sidebar-nav a {
+
+    justify-content: center;
+
+    padding: 15px;
+
+}
+
+.sidebar.closed .logout-btn span {
+
+    display: none;
+
+}
+
+.logout-btn {
+
+    margin: 18px;
+
+    border: none;
+
+    background: var(--danger);
+
+    color: var(--white);
+
+    padding: 14px;
+
+    border-radius: var(--radius-md);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition: .25s;
+
+}
+
+.logout-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-hover);
+
+}
+
+.sidebar.closed .logout-btn {
+
+    padding: 14px;
+
+}

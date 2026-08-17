@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class OrderItemCreate(BaseModel):
@@ -32,16 +33,12 @@ class OrderResponse(BaseModel):
     class Config:
         from_attributes = True
 
-from pydantic import BaseModel
 
 class OrderStatusUpdate(BaseModel):
     status: str
 
 
     
-from datetime import datetime
-from pydantic import BaseModel
-
 
 class OrderItemListResponse(BaseModel):
     food_item_name: str

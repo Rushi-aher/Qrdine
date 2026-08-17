@@ -1,9 +1,13 @@
 import "./FloatingCart.css";
 
 import { FaShoppingCart } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import {
+    useNavigate,
+    useSearchParams
+} from "react-router-dom";
 
 import { useCart } from "../../context/CartContext";
+
 
 const FloatingCart = () => {
 
@@ -15,11 +19,19 @@ const FloatingCart = () => {
 
     } = useCart();
 
+
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams();
+
+
+    const tableId = searchParams.get("table");
+
 
     if (totalItems === 0)
 
         return null;
+
 
     return (
 
@@ -29,7 +41,8 @@ const FloatingCart = () => {
 
                 <strong>
 
-                    {totalItems} Item{totalItems > 1 ? "s" : ""}
+                    {totalItems} Item
+                    {totalItems > 1 ? "s" : ""}
 
                 </strong>
 
@@ -41,7 +54,14 @@ const FloatingCart = () => {
 
             </div>
 
-            <button onClick={() => navigate("/cart")}>
+
+            <button
+
+                onClick={() =>
+                    navigate(`/cart?table=${tableId}`)
+                }
+
+            >
 
                 <FaShoppingCart />
 
@@ -54,5 +74,6 @@ const FloatingCart = () => {
     );
 
 };
+
 
 export default FloatingCart;

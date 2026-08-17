@@ -24,3 +24,7 @@ class User(Base):
         back_populates="owner",
         uselist=False,
     )
+    products = relationship(
+        "Product",
+        back_populates="owner"
+    )

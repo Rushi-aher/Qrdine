@@ -1,97 +1,209 @@
-.menu-page{
-
-    min-height:100vh;
-
-    background:#f5f7fa;
-
+.menu-page {
+    min-height: 100vh;
+    background: #f7f8fa;
+    padding-bottom: 100px;
 }
 
-.restaurant-banner{
+/* =========================
+   Restaurant Header
+========================= */
 
-    background:#198754;
+.restaurant-banner {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    background: #222;
 
-    color:white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 
-    padding:60px 40px;
-
+    padding: 35px 7%;
+    color: white;
 }
 
-.restaurant-banner h1{
+.restaurant-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
 
-    font-size:42px;
-
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.85),
+        rgba(0, 0, 0, 0.15)
+    );
 }
 
-.restaurant-banner p{
+.restaurant-banner img {
+    position: absolute;
+    inset: 0;
 
-    margin-top:10px;
+    width: 100%;
+    height: 100%;
 
+    object-fit: cover;
 }
 
-.category-bar{
-
-    display:flex;
-
-    gap:15px;
-
-    padding:25px 40px;
-
-    overflow:auto;
-
+.restaurant-banner h1,
+.restaurant-banner p {
+    position: relative;
+    z-index: 2;
 }
 
-.category-bar button{
+.restaurant-banner h1 {
+    margin: 0 0 8px;
 
-    border:none;
+    font-size: 40px;
+    font-weight: 700;
 
-    background:white;
-
-    padding:12px 22px;
-
-    border-radius:30px;
-
-    cursor:pointer;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.food-grid{
+.restaurant-banner p {
+    margin: 0;
 
-    padding:40px;
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-
-    gap:30px;
-
+    font-size: 16px;
+    opacity: 0.9;
 }
 
-@media(max-width:768px){
+/* =========================
+   Category Bar
+========================= */
 
-    .restaurant-banner{
+.category-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
 
-        padding:40px 20px;
+    display: flex;
+    gap: 10px;
 
+    padding: 16px 7%;
+
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+
+    border-bottom: 1px solid #e8e8e8;
+
+    overflow-x: auto;
+}
+
+.category-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.category-bar button {
+    flex-shrink: 0;
+
+    border: 1px solid #ddd;
+    background: white;
+
+    padding: 9px 18px;
+
+    border-radius: 30px;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.category-bar button:hover {
+    border-color: #198754;
+    color: #198754;
+}
+
+.category-bar button.active {
+    background: #198754;
+    color: white;
+
+    border-color: #198754;
+}
+
+/* =========================
+   Food Grid
+========================= */
+
+.food-grid {
+    max-width: 1200px;
+
+    margin: 35px auto;
+
+    padding: 0 25px;
+
+    display: grid;
+
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(280px, 1fr)
+    );
+
+    gap: 24px;
+}
+
+/* =========================
+   Loading / Error
+========================= */
+
+.menu-page > h2 {
+    text-align: center;
+
+    padding-top: 100px;
+
+    color: #555;
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 768px) {
+
+    .restaurant-banner {
+        height: 240px;
+
+        padding: 25px 20px;
     }
 
-    .restaurant-banner h1{
-
-        font-size:30px;
-
+    .restaurant-banner h1 {
+        font-size: 28px;
     }
 
-    .category-bar{
-
-        padding:20px;
-
+    .restaurant-banner p {
+        font-size: 14px;
     }
 
-    .food-grid{
-
-        padding:20px;
-
+    .category-bar {
+        padding: 14px 20px;
     }
 
+    .food-grid {
+        margin-top: 25px;
+
+        padding: 0 15px;
+
+        grid-template-columns: repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+        gap: 14px;
+    }
+}
+
+/* =========================
+   Small Mobile
+========================= */
+
+@media (max-width: 420px) {
+
+    .food-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .restaurant-banner {
+        height: 220px;
+    }
 }

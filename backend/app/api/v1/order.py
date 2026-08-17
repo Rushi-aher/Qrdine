@@ -9,14 +9,12 @@ from app.models.order import Order
 from app.models.order_item import OrderItem
 from app.models.restaurant import Restaurant
 from app.models.table import RestaurantTable
-from app.schemas.order import OrderListResponse
-from app.services.order_service import get_orders
-from app.services.restaurant_service import get_restaurant_by_owner
 
 from app.schemas.order import (
     OrderCreate,
     OrderResponse,
     OrderStatusUpdate,
+    OrderListResponse,
 )
 
 from app.services.order_service import (
@@ -104,7 +102,7 @@ def place_order(
 # ------------------------
 # Owner sees all orders
 # ------------------------
-@router.get("", response_model=list[OrderResponse])
+@router.get("", response_model=list[OrderListResponse])
 def list_orders(
     db: Session = Depends(get_db),
     current_user=Depends(owner_required),
@@ -121,11 +119,44 @@ def list_orders(
             detail="Restaurant not found",
         )
 
-    return get_restaurant_orders(
+    orders = get_restaurant_orders(
         db,
         restaurant.id,
     )
 
+    result = []
+
+    for order in orders:
+
+        result.append({
+
+            "id": order.id,
+
+            "table_number": order.table.table_number,
+
+            "customer_name": order.customer_name,
+
+            "status": order.status,
+
+            "created_at": order.created_at,
+
+            "items": [
+
+                {
+
+                    "food_item_name": item.food_item.name,
+
+                    "quantity": item.quantity,
+
+                }
+
+                for item in order.order_items
+
+            ],
+
+        })
+
+    return result
 
 # ------------------------
 # Owner updates order status

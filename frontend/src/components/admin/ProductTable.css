@@ -1,0 +1,123 @@
+.product-table-wrapper{
+
+    background:var(--surface);
+
+    border-radius:var(--radius-lg);
+
+    box-shadow:var(--shadow-card);
+
+    overflow:hidden;
+
+}
+
+.product-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.product-table th{
+
+    background:var(--background);
+
+    padding:18px;
+
+    text-align:left;
+
+    font-weight:600;
+
+}
+
+.product-table td{
+
+    padding:18px;
+
+    border-top:1px solid var(--border);
+
+}
+
+.product-image{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:12px;
+
+    object-fit:cover;
+
+}
+
+.status{
+
+    padding:6px 14px;
+
+    border-radius:30px;
+
+    color:white;
+
+    font-size:13px;
+
+}
+
+.active{
+
+    background:var(--primary);
+
+}
+
+.inactive{
+
+    background:var(--danger);
+
+}
+
+.actions{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.actions button{
+
+    width:38px;
+
+    height:38px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+}
+
+.edit-btn{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+.delete-btn{
+
+    background:var(--danger);
+
+    color:white;
+
+}
+
+.empty-products{
+
+    text-align:center;
+
+    padding:50px;
+
+    color:var(--text-light);
+
+}
