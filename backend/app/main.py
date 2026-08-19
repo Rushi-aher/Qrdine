@@ -27,6 +27,8 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://192.168.1.xxx:5173",
+        "https://qrdine-frontend-dep-render.onrender.com",
+
 
     ],
     allow_credentials=True,
