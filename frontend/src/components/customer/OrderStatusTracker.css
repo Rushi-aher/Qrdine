@@ -1,0 +1,312 @@
+.order-status-tracker {
+
+    position: fixed;
+
+    right: 24px;
+    bottom: 24px;
+
+    width: 370px;
+    max-width: calc(100vw - 30px);
+
+    padding: 20px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #1f2937,
+            #111827
+        );
+
+    color: white;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.28);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    z-index: 1000;
+
+    animation:
+        trackerAppear 0.5s ease;
+
+}
+
+
+/* Header */
+
+.order-status-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 22px;
+
+}
+
+
+.order-status-header h3 {
+
+    margin: 0;
+
+    font-size: 17px;
+
+    color: white;
+
+}
+
+
+.order-status-header p {
+
+    margin: 5px 0 0;
+
+    font-size: 12px;
+
+    color: #9ca3af;
+
+}
+
+
+.current-status {
+
+    padding: 7px 11px;
+
+    border-radius: 20px;
+
+    background: rgba(245, 158, 11, 0.15);
+
+    color: #fbbf24;
+
+    border: 1px solid rgba(245, 158, 11, 0.25);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+/* Progress */
+
+.status-progress {
+
+    position: relative;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* Connecting line */
+
+.status-progress::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 15px;
+    right: 15px;
+    top: 15px;
+
+    height: 3px;
+
+    background: #374151;
+
+    z-index: 0;
+
+}
+
+
+.status-step {
+
+    position: relative;
+
+    z-index: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #6b7280;
+
+    font-size: 9px;
+
+    font-weight: 500;
+
+}
+
+
+.status-circle {
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #374151;
+
+    border: 3px solid #1f2937;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    transition: all 0.3s ease;
+
+}
+
+
+.status-step.completed {
+
+    color: #86efac;
+
+}
+
+
+.status-step.completed .status-circle {
+
+    background: #16a34a;
+
+    border-color: #14532d;
+
+    color: white;
+
+    box-shadow:
+        0 0 0 4px rgba(22, 163, 74, 0.15);
+
+}
+
+
+/* Current active step */
+
+.status-step.completed:last-child .status-circle {
+
+    animation: statusPulse 1.5s infinite;
+
+}
+
+
+/* Message */
+
+.order-status-message {
+
+    padding: 13px 15px;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    text-align: center;
+
+}
+
+
+.order-status-message p {
+
+    margin: 0;
+
+    color: #e5e7eb;
+
+    font-size: 13px;
+
+}
+
+
+/* Animation */
+
+@keyframes trackerAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(20px)
+            scale(0.96);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+@keyframes statusPulse {
+
+    0% {
+
+        box-shadow:
+            0 0 0 0 rgba(22, 163, 74, 0.5);
+
+    }
+
+    70% {
+
+        box-shadow:
+            0 0 0 8px rgba(22, 163, 74, 0);
+
+    }
+
+    100% {
+
+        box-shadow:
+            0 0 0 0 rgba(22, 163, 74, 0);
+
+    }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .order-status-tracker {
+
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+
+        width: auto;
+
+        padding: 16px;
+
+    }
+
+    .status-step {
+
+        font-size: 8px;
+
+    }
+
+}

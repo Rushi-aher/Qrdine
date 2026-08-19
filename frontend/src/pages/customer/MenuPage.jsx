@@ -3,11 +3,11 @@ import { useSearchParams } from "react-router-dom";
 
 import FoodCard from "../../components/customer/FoodCard";
 import FloatingCart from "../../components/customer/FloatingCart";
+import OrderStatusTracker from "../../components/customer/OrderStatusTracker";
 
 import api from "../../services/api";
 
 import "./MenuPage.css";
-
 
 const MenuPage = () => {
 
@@ -187,9 +187,7 @@ const MenuPage = () => {
                         setSelectedCategory("All")
                     }
                 >
-
                     All
-
                 </button>
 
 
@@ -206,9 +204,7 @@ const MenuPage = () => {
                             setSelectedCategory(category.id)
                         }
                     >
-
                         {category.name}
-
                     </button>
 
                 ))}
@@ -238,6 +234,13 @@ const MenuPage = () => {
 
             </div>
 
+
+            {/* Current order status */}
+
+            <OrderStatusTracker />
+
+
+            {/* Floating cart */}
 
             <FloatingCart />
 

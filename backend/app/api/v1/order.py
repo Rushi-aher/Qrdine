@@ -161,6 +161,30 @@ def list_orders(
 # ------------------------
 # Owner updates order status
 # ------------------------
+#========================
+# ------------------------
+# Customer gets order status
+# ------------------------
+@router.get("/{order_id}", response_model=OrderResponse)
+def get_order_status(
+    order_id: int,
+    db: Session = Depends(get_db),
+):
+    order = get_order(
+        db,
+        order_id,
+    )
+
+    if order is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Order not found",
+        )
+
+    return order
+#========================
+
+
 @router.put("/{order_id}", response_model=OrderResponse)
 def change_order_status(
     order_id: int,
@@ -217,3 +241,48 @@ def change_order_status(
         db,
         order,
     )
+
+# ------------------------
+# Owner deletes an order
+# ------------------------
+@router.delete("/{order_id}")
+def delete_order(
+    order_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(owner_required),
+):
+    restaurant = (
+        db.query(Restaurant)
+        .filter(Restaurant.owner_id == current_user.id)
+        .first()
+    )
+
+    if restaurant is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Restaurant not found",
+        )
+
+    order = get_order(
+        db,
+        order_id,
+    )
+
+    if order is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Order not found",
+        )
+
+    if order.restaurant_id != restaurant.id:
+        raise HTTPException(
+            status_code=403,
+            detail="Unauthorized",
+        )
+
+    db.delete(order)
+    db.commit()
+
+    return {
+        "message": "Order deleted successfully"
+    }

@@ -1,1 +1,20 @@
 /* Styles are currently handled in Orders.css */
+.delete-order-btn {
+    border: none;
+    background: #ef4444;
+    color: white;
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.delete-order-btn:hover {
+    background: #dc2626;
+}
+
+.delete-order-btn:active {
+    transform: scale(0.97);
+}

@@ -1,16 +1,29 @@
+import {
+    FaTrash,
+} from "react-icons/fa";
+
 import "./OrderTable.css";
 
+
 const statusColors = {
+
     PENDING: "#f59e0b",
+
     PREPARING: "#3b82f6",
+
     READY: "#10b981",
+
     COMPLETED: "#16a34a",
+
     CANCELLED: "#ef4444",
+
 };
+
 
 const OrderTable = ({
     orders,
     onStatusChange,
+    onDeleteOrder,
 }) => {
 
     return (
@@ -23,23 +36,38 @@ const OrderTable = ({
 
                     <tr>
 
-                        <th>Order</th>
+                        <th>
+                            Order
+                        </th>
 
-                        <th>Table</th>
+                        <th>
+                            Table
+                        </th>
 
-                        <th>Customer</th>
+                        <th>
+                            Customer
+                        </th>
 
-                        <th>Items</th>
+                        <th>
+                            Items
+                        </th>
 
-                        <th>Status</th>
+                        <th>
+                            Status
+                        </th>
 
-                        <th>Created</th>
+                        <th>
+                            Created
+                        </th>
 
-                        <th>Action</th>
+                        <th>
+                            Action
+                        </th>
 
                     </tr>
 
                 </thead>
+
 
                 <tbody>
 
@@ -69,31 +97,39 @@ const OrderTable = ({
                                     #{order.id}
                                 </td>
 
+
                                 <td>
                                     {order.table_number}
                                 </td>
+
 
                                 <td>
                                     {order.customer_name}
                                 </td>
 
+
                                 <td>
 
-                                    {order.items.map((item, index) => (
+                                    {order.items.map(
+                                        (item, index) => (
 
-                                        <div key={index}>
+                                            <div
+                                                key={index}
+                                            >
 
-                                            {item.food_item_name}
+                                                {item.food_item_name}
 
-                                            {" × "}
+                                                {" × "}
 
-                                            {item.quantity}
+                                                {item.quantity}
 
-                                        </div>
+                                            </div>
 
-                                    ))}
+                                        )
+                                    )}
 
                                 </td>
+
 
                                 <td>
 
@@ -106,10 +142,13 @@ const OrderTable = ({
                                                 ],
                                         }}
                                     >
+
                                         {order.status}
+
                                     </span>
 
                                 </td>
+
 
                                 <td>
 
@@ -119,39 +158,61 @@ const OrderTable = ({
 
                                 </td>
 
+
                                 <td>
 
-                                    <select
-                                        value={order.status}
-                                        onChange={(e) =>
-                                            onStatusChange(
-                                                order.id,
-                                                e.target.value
-                                            )
-                                        }
-                                    >
+                                    <div className="order-actions">
 
-                                        <option value="PENDING">
-                                            Pending
-                                        </option>
+                                        <select
+                                            value={
+                                                order.status
+                                            }
+                                            onChange={(e) =>
+                                                onStatusChange(
+                                                    order.id,
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
 
-                                        <option value="PREPARING">
-                                            Preparing
-                                        </option>
+                                            <option value="PENDING">
+                                                Pending
+                                            </option>
 
-                                        <option value="READY">
-                                            Ready
-                                        </option>
+                                            <option value="PREPARING">
+                                                Preparing
+                                            </option>
 
-                                        <option value="COMPLETED">
-                                            Completed
-                                        </option>
+                                            <option value="READY">
+                                                Ready
+                                            </option>
 
-                                        <option value="CANCELLED">
-                                            Cancelled
-                                        </option>
+                                            <option value="COMPLETED">
+                                                Completed
+                                            </option>
 
-                                    </select>
+                                            <option value="CANCELLED">
+                                                Cancelled
+                                            </option>
+
+                                        </select>
+
+
+                                        <button className="delete-order-btn"
+                                            className="delete-order-btn"
+                                            onClick={() =>
+                                                onDeleteOrder(
+                                                    order.id
+                                                )
+                                            }
+                                            title="Delete Order"
+                                        >
+
+                                            <FaTrash />
+
+                                        </button>
+
+                                    </div>
 
                                 </td>
 
@@ -170,5 +231,6 @@ const OrderTable = ({
     );
 
 };
+
 
 export default OrderTable;

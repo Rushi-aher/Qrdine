@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import DashboardCard from "../../components/admin/DashboardCard";
 
 import { getDashboardStats } from "../../services/dashboardService";
@@ -7,7 +9,6 @@ import { getDashboardStats } from "../../services/dashboardService";
 import RecentOrders from "../../components/admin/RecentOrders";
 
 import {
-
     FaClipboardList,
     FaClock,
     FaCheckCircle,
@@ -17,15 +18,17 @@ import {
     FaFire,
     FaUtensils,
     FaPlus,
-
-
 } from "react-icons/fa";
 
 import "./Dashboard.css";
 
+
 const Dashboard = () => {
 
+    const navigate = useNavigate();
+
     const [stats, setStats] = useState(null);
+
 
     useEffect(() => {
 
@@ -33,11 +36,13 @@ const Dashboard = () => {
 
     }, []);
 
+
     const loadDashboard = async () => {
 
         try {
 
-            const data = await getDashboardStats();
+            const data =
+                await getDashboardStats();
 
             setStats(data);
 
@@ -45,11 +50,15 @@ const Dashboard = () => {
 
         catch (error) {
 
-            console.error(error);
+            console.error(
+                "Dashboard Error:",
+                error
+            );
 
         }
 
     };
+
 
     if (!stats) {
 
@@ -65,48 +74,79 @@ const Dashboard = () => {
 
     }
 
+
     return (
 
         <div className="dashboard">
+
 
             <div className="dashboard-top">
 
                 <div>
 
                     <h1>
-
                         Welcome Back 👋
-
                     </h1>
 
                     <p>
-
                         Manage everything from one place.
-
                     </p>
 
                 </div>
 
-                
-
-
             </div>
+
 
             <div className="dashboard-grid">
 
-                <DashboardCard title="Today's Orders" value={stats.today_orders} icon={<FaFire />} />
+                <DashboardCard
+                    title="Today's Orders"
+                    value={stats.today_orders}
+                    icon={<FaFire />}
+                />
 
-                <DashboardCard title="Pending" value={stats.pending_orders} icon={<FaClock />} />
 
-                <DashboardCard title="Preparing" value={stats.preparing_orders} icon={<FaUtensils />} />
+                <DashboardCard
+                    title="Pending"
+                    value={stats.pending_orders}
+                    icon={<FaClock />}
+                />
 
-                <DashboardCard title="Completed" value={stats.completed_orders} icon={<FaCheckCircle />} />
 
-                <DashboardCard title="Food Items" value={stats.total_food_items} icon={<FaHamburger />} />
+                <DashboardCard
+                    title="Preparing"
+                    value={stats.preparing_orders}
+                    icon={<FaUtensils />}
+                />
 
-                <DashboardCard title="Categories" value={stats.total_categories} icon={<FaTags />} />
 
-                <DashboardCard title="Tables" value={stats.total_tables} icon={<FaQrcode />} />
+                <DashboardCard
+                    title="Completed"
+                    value={stats.completed_orders}
+                    icon={<FaCheckCircle />}
+                />
+
+
+                <DashboardCard
+                    title="Food Items"
+                    value={stats.total_food_items}
+                    icon={<FaHamburger />}
+                />
+
+
+                <DashboardCard
+                    title="Categories"
+                    value={stats.total_categories}
+                    icon={<FaTags />}
+                />
+
+
+                <DashboardCard
+                    title="Tables"
+                    value={stats.total_tables}
+                    icon={<FaQrcode />}
+                />
+
 
                 <DashboardCard
                     title="Total Orders"
@@ -121,7 +161,9 @@ const Dashboard = () => {
 
             </div>
 
+
             <div className="dashboard-bottom">
+
 
                 <div className="recent-orders">
 
@@ -131,9 +173,12 @@ const Dashboard = () => {
 
                     </div>
 
+
                     <RecentOrders />
 
                 </div>
+
+
                 <div className="quick-actions">
 
                     <div className="section-title">
@@ -142,7 +187,14 @@ const Dashboard = () => {
 
                     </div>
 
-                    <button>
+
+                    <button
+                        onClick={() =>
+                            navigate(
+                                "/admin/add-product"
+                            )
+                        }
+                    >
 
                         <FaPlus />
 
@@ -150,7 +202,14 @@ const Dashboard = () => {
 
                     </button>
 
-                    <button>
+
+                    <button
+                        onClick={() =>
+                            navigate(
+                                "/admin/categories"
+                            )
+                        }
+                    >
 
                         <FaTags />
 
@@ -158,7 +217,14 @@ const Dashboard = () => {
 
                     </button>
 
-                    <button>
+
+                    <button
+                        onClick={() =>
+                            navigate(
+                                "/admin/tables"
+                            )
+                        }
+                    >
 
                         <FaQrcode />
 
@@ -166,16 +232,17 @@ const Dashboard = () => {
 
                     </button>
 
-                    
-
                 </div>
 
+
             </div>
+
 
         </div>
 
     );
 
 };
+
 
 export default Dashboard;

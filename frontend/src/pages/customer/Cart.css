@@ -420,3 +420,171 @@
         padding: 40px 20px;
     }
 }
+
+/* ============================= */
+/* ORDER SUCCESS SCREEN */
+/* ============================= */
+
+.order-success-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(255, 166, 0, 0.15),
+            transparent 45%
+        ),
+        #f8f9fb;
+}
+
+.order-success-card {
+    width: 420px;
+    max-width: 100%;
+    padding: 40px 30px;
+    text-align: center;
+
+    background: white;
+    border-radius: 24px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.12);
+
+    animation: successAppear 0.4s ease;
+}
+
+.success-circle {
+    width: 75px;
+    height: 75px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #16a34a;
+    color: white;
+
+    font-size: 38px;
+    font-weight: bold;
+
+    animation: successPop 0.5s ease;
+}
+
+.order-success-card h1 {
+    margin: 0 0 10px;
+
+    font-size: 30px;
+}
+
+.order-success-card p {
+    margin: 0 auto 22px;
+
+    color: #666;
+    line-height: 1.6;
+}
+
+.success-order-info {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    margin-bottom: 25px;
+}
+
+.success-order-info span {
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.success-loader {
+    width: 100%;
+    height: 5px;
+
+    overflow: hidden;
+
+    margin-bottom: 12px;
+
+    border-radius: 10px;
+
+    background: #e5e7eb;
+}
+
+.success-loader-bar {
+    height: 100%;
+    width: 100%;
+
+    border-radius: 10px;
+
+    background: #16a34a;
+
+    transform-origin: left;
+
+    animation: successLoading 2.2s linear forwards;
+}
+
+.order-success-card small {
+    color: #888;
+}
+
+
+/* ============================= */
+/* ANIMATIONS */
+/* ============================= */
+
+@keyframes successAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+@keyframes successPop {
+
+    0% {
+        transform: scale(0);
+    }
+
+    70% {
+        transform: scale(1.12);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+@keyframes successLoading {
+
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+
+}

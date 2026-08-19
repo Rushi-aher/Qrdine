@@ -8,61 +8,53 @@ export const CartProvider = ({ children }) => {
 
     const addToCart = (food) => {
 
-        const existing = cart.find(item => item.id === food.id);
+        const existing = cart.find(
+            item => item.id === food.id
+        );
 
         if (existing) {
 
             setCart(
-
                 cart.map(item =>
-
                     item.id === food.id
-                        ? { ...item, quantity: item.quantity + 1 }
+                        ? {
+                            ...item,
+                            quantity: item.quantity + 1
+                        }
                         : item
-
                 )
-
             );
 
-        }
-
-        else {
+        } else {
 
             setCart([
-
                 ...cart,
-
                 {
-
                     ...food,
-
                     quantity: 1
-
                 }
-
             ]);
 
         }
 
     };
 
+
     const increaseQuantity = (id) => {
 
         setCart(
-
             cart.map(item =>
-
                 item.id === id
-
-                    ? { ...item, quantity: item.quantity + 1 }
-
+                    ? {
+                        ...item,
+                        quantity: item.quantity + 1
+                    }
                     : item
-
             )
-
         );
 
     };
+
 
     const decreaseQuantity = (id) => {
 
@@ -70,19 +62,12 @@ export const CartProvider = ({ children }) => {
 
             cart
                 .map(item =>
-
                     item.id === id
-
                         ? {
-
                             ...item,
-
                             quantity: item.quantity - 1
-
                         }
-
                         : item
-
                 )
                 .filter(item => item.quantity > 0)
 
@@ -90,46 +75,48 @@ export const CartProvider = ({ children }) => {
 
     };
 
+
+    // CLEAR CART AFTER SUCCESSFUL ORDER
+
+    const clearCart = () => {
+
+        setCart([]);
+
+    };
+
+
     const totalPrice = cart.reduce(
 
         (total, item) =>
-
             total + item.price * item.quantity,
 
         0
 
     );
 
+
     const totalItems = cart.reduce(
 
         (total, item) =>
-
             total + item.quantity,
 
         0
 
     );
 
+
     return (
 
         <CartContext.Provider
-
             value={{
-
                 cart,
-
                 addToCart,
-
                 increaseQuantity,
-
                 decreaseQuantity,
-
+                clearCart,
                 totalItems,
-
                 totalPrice
-
             }}
-
         >
 
             {children}
@@ -140,4 +127,6 @@ export const CartProvider = ({ children }) => {
 
 };
 
-export const useCart = () => useContext(CartContext);
+
+export const useCart = () =>
+    useContext(CartContext);

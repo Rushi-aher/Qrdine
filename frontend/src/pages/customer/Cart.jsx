@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 import { useCart } from "../../context/CartContext";
-
 import api from "../../services/api";
 
 import "./Cart.css";
@@ -13,88 +12,77 @@ const Cart = () => {
         cart,
         increaseQuantity,
         decreaseQuantity,
+        clearCart,
         totalItems,
         totalPrice
     } = useCart();
 
     const [searchParams] = useSearchParams();
-
     const navigate = useNavigate();
 
     const tableId = searchParams.get("table");
 
     const [customerName, setCustomerName] = useState("");
-
     const [loading, setLoading] = useState(false);
-
     const [error, setError] = useState("");
-
-    const [success, setSuccess] = useState("");
-
+    const [success, setSuccess] = useState(false);
 
     const handleCheckout = async () => {
 
         if (!tableId) {
-
             setError("Table information is missing.");
-
             return;
-
         }
 
         if (!customerName.trim()) {
-
             setError("Please enter your name.");
-
             return;
-
         }
 
         if (cart.length === 0) {
-
             setError("Your cart is empty.");
-
             return;
-
         }
 
         setLoading(true);
-
         setError("");
-
-        setSuccess("");
-
 
         try {
 
             const orderData = {
-
                 table_id: Number(tableId),
 
                 customer_name: customerName.trim(),
 
                 items: cart.map((item) => ({
-
                     food_item_id: item.id,
-
-                    quantity: item.quantity,
-
-                })),
-
+                    quantity: item.quantity
+                }))
             };
 
-
-            await api.post(
+            const response = await api.post(
                 "/orders",
                 orderData
             );
 
+            // Save current order for status tracker
+            localStorage.setItem(
+                "currentOrderId",
+                response.data.id
+            );
 
-        setSuccess("Order placed successfully!");
+            // Clear cart immediately
+            clearCart();
 
-        setTimeout(() => {
-            navigate(`/order-success?table=${tableId}`);
-        }, 700);
+            // Show success screen immediately
+            setSuccess(true);
+
+            // Go back to menu after success message
+            setTimeout(() => {
+
+                navigate(`/menu?table=${tableId}`);
+
+            }, 2200);
 
         }
 
@@ -121,13 +109,78 @@ const Cart = () => {
     };
 
 
+    /*
+     * SUCCESS SCREEN
+     *
+     * This is returned BEFORE the normal cart UI,
+     * so the empty cart page is never displayed.
+     */
+
+    if (success) {
+
+        return (
+
+            <div className="order-success-page">
+
+                <div className="order-success-card">
+
+                    <div className="success-circle">
+
+                        ✓
+
+                    </div>
+
+                    <h1>
+                        Order Placed!
+                    </h1>
+
+                    <p>
+                        Your order has been successfully sent
+                        to the restaurant.
+                    </p>
+
+                    <div className="success-order-info">
+
+                        <span>
+                            Table {tableId}
+                        </span>
+
+                        <span>
+                            Order #{localStorage.getItem(
+                                "currentOrderId"
+                            )}
+                        </span>
+
+                    </div>
+
+                    <div className="success-loader">
+
+                        <div className="success-loader-bar"></div>
+
+                    </div>
+
+                    <small>
+                        Taking you back to the menu...
+                    </small>
+
+                </div>
+
+            </div>
+
+        );
+
+    }
+
+
     return (
 
         <div className="cart-page">
 
             <div className="cart-header">
 
-                <h1>Your Cart</h1>
+                <h1>
+                    Your Cart
+                </h1>
 
                 <p>
                     Review your items before placing your order.
@@ -149,9 +202,7 @@ const Cart = () => {
                     </p>
 
                     <button
-                        onClick={() =>
-                            navigate(-1)
-                        }
+                        onClick={() => navigate(-1)}
                     >
                         Back to Menu
                     </button>
@@ -174,9 +225,7 @@ const Cart = () => {
                     </p>
 
                     <button
-                        onClick={() =>
-                            navigate(-1)
-                        }
+                        onClick={() => navigate(-1)}
                     >
                         Browse Menu
                     </button>
@@ -201,7 +250,6 @@ const Cart = () => {
                                     alt={item.name}
                                 />
 
-
                                 <div className="cart-info">
 
                                     <h3>
@@ -214,14 +262,11 @@ const Cart = () => {
 
                                 </div>
 
-
                                 <div className="cart-quantity">
 
                                     <button
                                         onClick={() =>
-                                            decreaseQuantity(
-                                                item.id
-                                            )
+                                            decreaseQuantity(item.id)
                                         }
                                     >
                                         −
@@ -233,9 +278,7 @@ const Cart = () => {
 
                                     <button
                                         onClick={() =>
-                                            increaseQuantity(
-                                                item.id
-                                            )
+                                            increaseQuantity(item.id)
                                         }
                                     >
                                         +
@@ -243,12 +286,10 @@ const Cart = () => {
 
                                 </div>
 
-
                                 <div className="cart-item-total">
 
                                     ₹
-                                    {item.price *
-                                        item.quantity}
+                                    {item.price * item.quantity}
 
                                 </div>
 
@@ -265,7 +306,6 @@ const Cart = () => {
                             Order Summary
                         </h2>
 
-
                         <div className="summary-row">
 
                             <span>
@@ -277,7 +317,6 @@ const Cart = () => {
                             </span>
 
                         </div>
-
 
                         <div className="summary-row total">
 
@@ -291,7 +330,6 @@ const Cart = () => {
 
                         </div>
 
-
                         <div className="customer-name">
 
                             <label>
@@ -303,14 +341,11 @@ const Cart = () => {
                                 placeholder="Enter your name"
                                 value={customerName}
                                 onChange={(e) =>
-                                    setCustomerName(
-                                        e.target.value
-                                    )
+                                    setCustomerName(e.target.value)
                                 }
                             />
 
                         </div>
-
 
                         {error && (
 
@@ -320,32 +355,18 @@ const Cart = () => {
 
                         )}
 
+                        <button
+                            className="checkout-btn"
+                            onClick={handleCheckout}
+                            disabled={loading}
+                        >
 
-                        {success && (
+                            {loading
+                                ? "Placing Order..."
+                                : "Place Order"
+                            }
 
-                            <p className="cart-success">
-                                {success}
-                            </p>
-
-                        )}
-
-
-                        {!success && (
-
-                            <button
-                                className="checkout-btn"
-                                onClick={handleCheckout}
-                                disabled={loading}
-                            >
-
-                                {loading
-                                    ? "Placing Order..."
-                                    : "Place Order"
-                                }
-
-                            </button>
-
-                        )}
+                        </button>
 
                     </div>
 

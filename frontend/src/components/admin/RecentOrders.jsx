@@ -1,62 +1,76 @@
+import { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+
+import {
+    getOrders,
+} from "../../services/orderService";
+
 import "./RecentOrders.css";
 
-const orders = [
-
-    {
-        id: "#1025",
-        table: "Table 4",
-        customer: "Rahul",
-        amount: "₹640",
-        status: "Preparing"
-    },
-
-    {
-        id: "#1024",
-        table: "Table 2",
-        customer: "Priya",
-        amount: "₹420",
-        status: "Ready"
-    },
-
-    {
-        id: "#1023",
-        table: "Table 7",
-        customer: "Amit",
-        amount: "₹980",
-        status: "Completed"
-    },
-
-    {
-        id: "#1022",
-        table: "Table 1",
-        customer: "Rohan",
-        amount: "₹350",
-        status: "Pending"
-    }
-
-];
 
 const RecentOrders = () => {
+
+    const navigate = useNavigate();
+
+    const [orders, setOrders] = useState([]);
+
+
+    useEffect(() => {
+
+        loadRecentOrders();
+
+    }, []);
+
+
+    const loadRecentOrders = async () => {
+
+        try {
+
+            const data = await getOrders();
+
+            setOrders(
+                data.slice(0, 5)
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Unable to load recent orders:",
+                error
+            );
+
+        }
+
+    };
+
 
     return (
 
         <div className="recent-orders">
 
+
             <div className="recent-header">
 
                 <h2>
-
                     Recent Orders
-
                 </h2>
 
-                <button>
 
+                <button
+                    onClick={() =>
+                        navigate(
+                            "/admin/orders"
+                        )
+                    }
+                >
                     View All
-
                 </button>
 
             </div>
+
 
             <table>
 
@@ -64,60 +78,113 @@ const RecentOrders = () => {
 
                     <tr>
 
-                        <th>Order</th>
+                        <th>
+                            Order
+                        </th>
 
-                        <th>Customer</th>
+                        <th>
+                            Customer
+                        </th>
 
-                        <th>Table</th>
+                        <th>
+                            Table
+                        </th>
 
-                        <th>Amount</th>
-
-                        <th>Status</th>
+                        <th>
+                            Status
+                        </th>
 
                     </tr>
 
                 </thead>
 
+
                 <tbody>
 
-                    {
+                    {orders.length === 0 ? (
 
-                        orders.map(order => (
+                        <tr>
 
-                            <tr key={order.id}>
+                            <td
+                                colSpan="4"
+                                style={{
+                                    textAlign:
+                                        "center",
+                                    padding:
+                                        "20px",
+                                }}
+                            >
 
-                                <td>{order.id}</td>
+                                No recent orders.
 
-                                <td>{order.customer}</td>
+                            </td>
 
-                                <td>{order.table}</td>
+                        </tr>
 
-                                <td>{order.amount}</td>
+                    ) : (
 
-                                <td>
+                        orders.map(
+                            (order) => (
 
-                                    <span className={order.status.toLowerCase()}>
+                                <tr
+                                    key={
+                                        order.id
+                                    }
+                                >
 
-                                        {order.status}
+                                    <td>
+                                        #{order.id}
+                                    </td>
 
-                                    </span>
 
-                                </td>
+                                    <td>
+                                        {
+                                            order.customer_name
+                                        }
+                                    </td>
 
-                            </tr>
 
-                        ))
+                                    <td>
+                                        Table{" "}
+                                        {
+                                            order.table_number
+                                        }
+                                    </td>
 
-                    }
+
+                                    <td>
+
+                                        <span
+                                            className={
+                                                `recent-status ${order.status.toLowerCase()}`
+                                            }
+                                        >
+
+                                            {
+                                                order.status
+                                            }
+
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                            )
+                        )
+
+                    )}
 
                 </tbody>
 
             </table>
+
 
         </div>
 
     );
 
 };
+
 
 export default RecentOrders;
