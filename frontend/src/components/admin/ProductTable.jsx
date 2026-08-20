@@ -82,7 +82,7 @@ const ProductTable = ({
 
                                                     ?
 
-                                                    `http://127.0.0.1:8000/${item.image}`
+                                                    `${import.meta.env.VITE_API_URL}/${item.image}`
 
                                                     :
 

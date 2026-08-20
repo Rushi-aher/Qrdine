@@ -73,7 +73,7 @@ const RestaurantSearch = () => {
             return imagePath;
         }
 
-        return `http://127.0.0.1:8000/${imagePath}`;
+        return `${import.meta.env.VITE_API_URL}/${imagePath}`;
 
     };
 

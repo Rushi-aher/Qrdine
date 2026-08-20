@@ -64,7 +64,7 @@ const ProductModal = ({
 
                 editingProduct.image
 
-                    ? `http://127.0.0.1:8000/${editingProduct.image}`
+                    ? `${import.meta.env.VITE_API_URL}/${editingProduct.image}`
 
                     : ""
 
