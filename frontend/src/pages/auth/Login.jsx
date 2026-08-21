@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 
 import {
@@ -23,6 +23,7 @@ const Login = () => {
   const [password, setPassword] = useState("Password@123");
 
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
 
   const handleLogin = async () => {
@@ -48,7 +49,8 @@ const Login = () => {
       if (payload.role === "OWNER") {
         navigate("/admin/dashboard");
       } else {
-        navigate("/restaurant-search");
+        const redirectTo = location.state?.from;
+        navigate(redirectTo || "/restaurant-search");
       }
     } catch (error) {
       console.error("Login Error:", error);

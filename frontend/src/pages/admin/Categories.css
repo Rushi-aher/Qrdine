@@ -1,0 +1,137 @@
+.categories-page {
+    padding: 30px;
+}
+
+.categories-header {
+    margin-bottom: 25px;
+}
+
+.categories-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.categories-header p {
+    margin-top: 6px;
+    color: #777;
+}
+
+/* Add/Edit form */
+
+.category-form-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.category-form-card h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.category-form-card form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.category-form-card input {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+
+.category-form-card input:focus {
+    border-color: #f97316;
+}
+
+.category-form-card button {
+    border: none;
+    background: #f97316;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.category-form-card button:hover {
+    background: #ea580c;
+}
+
+.category-form-card .cancel-btn {
+    background: #6b7280;
+}
+
+.category-form-card .cancel-btn:hover {
+    background: #4b5563;
+}
+
+/* Category list */
+
+.categories-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+.category-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.category-card h3 {
+    margin: 0 0 7px;
+}
+
+.category-card p {
+    margin: 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.category-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.category-actions button {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-category {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.edit-category:hover {
+    background: #bae6fd;
+}
+
+.delete-category {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.delete-category:hover {
+    background: #fecaca;
+}
