@@ -6,4 +6,4 @@ from .food_item import router as food_item_router
 from .menu import router as menu_router
 from .order import router as order_router
 from .dashboard import router as dashboard_router
-from .menu import router as menu_router
+from .analytics import router as analytics_router

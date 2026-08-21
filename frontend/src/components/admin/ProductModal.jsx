@@ -3,35 +3,21 @@ import { useEffect, useState } from "react";
 import "./ProductModal.css";
 
 const ProductModal = ({
-
     open,
-
     onClose,
-
     onSave,
-
     editingProduct,
-
     categories,
-
 }) => {
 
     const [formData, setFormData] = useState({
-
         name: "",
-
         description: "",
-
         price: "",
-
         available_quantity: "",
-
         category_id: "",
-
         is_available: true,
-
         image: null,
-
     });
 
     const [preview, setPreview] = useState("");
@@ -43,66 +29,54 @@ const ProductModal = ({
         if (editingProduct) {
 
             setFormData({
-
-                name: editingProduct.name,
-
-                description: editingProduct.description,
-
-                price: editingProduct.price,
-
-                available_quantity: editingProduct.available_quantity,
-
-                category_id: editingProduct.category_id,
-
-                is_available: editingProduct.is_available,
-
+                name: editingProduct.name || "",
+                description: editingProduct.description || "",
+                price: editingProduct.price ?? "",
+                available_quantity:
+                    editingProduct.available_quantity ?? "",
+                category_id:
+                    editingProduct.category_id ?? "",
+                is_available:
+                    editingProduct.is_available ?? true,
                 image: null,
-
             });
 
             setPreview(
-
                 editingProduct.image
-
                     ? `${import.meta.env.VITE_API_URL}/${editingProduct.image}`
-
                     : ""
-
             );
 
-        }
-
-        else {
+        } else {
 
             setFormData({
-
                 name: "",
-
                 description: "",
-
                 price: "",
-
                 available_quantity: "",
-
                 category_id: "",
-
                 is_available: true,
-
                 image: null,
-
             });
 
             setPreview("");
-
         }
 
     }, [editingProduct, open]);
 
     if (!open) {
-
         return null;
-
     }
+
+    const handleChange = (e) => {
+
+        const { name, value, type, checked } = e.target;
+
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value,
+        });
+    };
 
     const handleImage = (e) => {
 
@@ -111,87 +85,57 @@ const ProductModal = ({
         if (!file) return;
 
         setFormData({
-
             ...formData,
-
             image: file,
-
         });
 
-        setPreview(
-
-            URL.createObjectURL(file)
-
-        );
-
+        setPreview(URL.createObjectURL(file));
     };
 
     const submit = () => {
 
+        if (!formData.name.trim()) {
+            alert("Please enter product name.");
+            return;
+        }
+
+        if (!formData.category_id) {
+            alert("Please select a category.");
+            return;
+        }
+
+        if (!formData.price) {
+            alert("Please enter price.");
+            return;
+        }
+
+        if (formData.available_quantity === "") {
+            alert("Please enter available quantity.");
+            return;
+        }
+
+        if (!editingProduct && !formData.image) {
+            alert("Please select a product image.");
+            return;
+        }
+
         const data = new FormData();
 
+        data.append("name", formData.name);
+        data.append("description", formData.description);
+        data.append("price", formData.price);
         data.append(
-
-            "name",
-
-            formData.name
-
-        );
-
-        data.append(
-
-            "description",
-
-            formData.description
-
-        );
-
-        data.append(
-
-            "price",
-
-            formData.price
-
-        );
-
-        data.append(
-
             "available_quantity",
-
             formData.available_quantity
-
         );
-
-        data.append(
-
-            "category_id",
-
-            formData.category_id
-
-        );
-
-        data.append(
-
-            "is_available",
-
-            formData.is_available
-
-        );
+        data.append("category_id", formData.category_id);
+        data.append("is_available", formData.is_available);
 
         if (formData.image) {
-
-            data.append(
-
-                "image",
-
-                formData.image
-
-            );
-
+            data.append("image", formData.image);
         }
 
         onSave(data);
-
     };
 
     return (
@@ -200,228 +144,207 @@ const ProductModal = ({
 
             <div className="product-modal">
 
-                <h2>
-
-                    {
-
-                        editingProduct
-
-                            ? "Edit Menu Item"
-
-                            : "Add Menu Item"
-
-                    }
-
-                </h2>
-
-                <input
-
-                    placeholder="Name"
-
-                    value={formData.name}
-
-                    onChange={(e) =>
-
-                        setFormData({
-
-                            ...formData,
-
-                            name: e.target.value,
-
-                        })
-
-                    }
-
-                />
-
-                <textarea
-
-                    placeholder="Description"
-
-                    value={formData.description}
-
-                    onChange={(e) =>
-
-                        setFormData({
-
-                            ...formData,
-
-                            description: e.target.value,
-
-                        })
-
-                    }
-
-                />
-
-                <input
-
-                    type="number"
-
-                    placeholder="Price"
-
-                    value={formData.price}
-
-                    onChange={(e) =>
-
-                        setFormData({
-
-                            ...formData,
-
-                            price: e.target.value,
-
-                        })
-
-                    }
-
-                />
-
-                <input
-
-                    type="number"
-
-                    placeholder="Available Quantity"
-
-                    value={formData.available_quantity}
-
-                    onChange={(e) =>
-
-                        setFormData({
-
-                            ...formData,
-
-                            available_quantity: e.target.value,
-
-                        })
-
-                    }
-
-                />
-
-                <select
-
-                    value={formData.category_id}
-
-                    onChange={(e) =>
-
-                        setFormData({
-
-                            ...formData,
-
-                            category_id: e.target.value,
-
-                        })
-
-                    }
-
-                >
-
-                    <option value="">
-
-                        Select Category
-
-                    </option>
-
-                    {
-
-                        categories.map(category => (
-
-                            <option
-
-                                key={category.id}
-
-                                value={category.id}
-
-                            >
-
-                                {category.name}
-
-                            </option>
-
-                        ))
-
-                    }
-
-                </select>
-
-                <label className="availability">
+                <div className="modal-header">
+
+                    <div>
+                        <h2>
+                            {editingProduct
+                                ? "Edit Menu Item"
+                                : "Add Menu Item"}
+                        </h2>
+
+                        <p>
+                            {editingProduct
+                                ? "Update your menu item details."
+                                : "Add a new item to your restaurant menu."}
+                        </p>
+                    </div>
+
+                    <button
+                        className="modal-close"
+                        onClick={onClose}
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div className="form-group">
+
+                    <label>
+                        Product Name
+                    </label>
 
                     <input
-
-                        type="checkbox"
-
-                        checked={formData.is_available}
-
-                        onChange={(e) =>
-
-                            setFormData({
-
-                                ...formData,
-
-                                is_available: e.target.checked,
-
-                            })
-
-                        }
-
+                        type="text"
+                        name="name"
+                        placeholder="Enter product name"
+                        value={formData.name}
+                        onChange={handleChange}
                     />
 
-                    Available
+                </div>
 
-                </label>
 
-                <input
+                <div className="form-group">
 
-                    type="file"
+                    <label>
+                        Description
+                    </label>
 
-                    accept="image/*"
+                    <textarea
+                        name="description"
+                        placeholder="Enter product description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        rows="4"
+                    />
 
-                    onChange={handleImage}
+                </div>
 
-                />
 
-                {
+                <div className="form-row">
 
-                    preview && (
+                    <div className="form-group">
 
-                        <img
+                        <label>
+                            Price (₹)
+                        </label>
 
-                            src={preview}
-
-                            alt="preview"
-
-                            className="preview-image"
-
+                        <input
+                            type="number"
+                            name="price"
+                            placeholder="Enter price"
+                            min="0"
+                            value={formData.price}
+                            onChange={handleChange}
                         />
 
-                    )
+                    </div>
 
-                }
+
+                    <div className="form-group">
+
+                        <label>
+                            Available Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            name="available_quantity"
+                            placeholder="Enter quantity"
+                            min="0"
+                            value={formData.available_quantity}
+                            onChange={handleChange}
+                        />
+
+                    </div>
+
+                </div>
+
+
+                <div className="form-group">
+
+                    <label>
+                        Category
+                    </label>
+
+                    <select
+                        name="category_id"
+                        value={formData.category_id}
+                        onChange={handleChange}
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        {categories.map((category) => (
+
+                            <option
+                                key={category.id}
+                                value={category.id}
+                            >
+                                {category.name}
+                            </option>
+
+                        ))}
+
+                    </select>
+
+                </div>
+
+
+                <div className="availability-toggle">
+
+                    <span>Product is available</span>
+
+                    <label className="toggle-switch">
+
+                        <input
+                            type="checkbox"
+                            name="is_available"
+                            checked={formData.is_available}
+                            onChange={handleChange}
+                        />
+
+                        <span className="toggle-slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div className="form-group">
+
+                    <label>
+                        Product Image
+                    </label>
+
+                    <input
+                        className="file-input"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImage}
+                    />
+
+                </div>
+
+
+                {preview && (
+
+                    <div className="image-preview-container">
+
+                        <img
+                            src={preview}
+                            alt="Product preview"
+                            className="preview-image"
+                        />
+
+                    </div>
+
+                )}
+
 
                 <div className="modal-buttons">
 
                     <button
-
+                        type="button"
                         className="cancel-btn"
-
                         onClick={onClose}
-
                     >
-
                         Cancel
-
                     </button>
 
                     <button
-
+                        type="button"
                         className="save-btn"
-
                         onClick={submit}
-
                     >
-
-                        Save
-
+                        {editingProduct
+                            ? "Update Item"
+                            : "Add Item"}
                     </button>
 
                 </div>
@@ -429,9 +352,7 @@ const ProductModal = ({
             </div>
 
         </div>
-
     );
-
 };
 
 export default ProductModal;

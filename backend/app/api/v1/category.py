@@ -138,7 +138,11 @@ def remove_category(
             status_code=403,
             detail="Not authorized",
         )
-
+    if category.name == "Fast Food":
+        raise HTTPException(
+            status_code=400,
+            detail="The default Fast Food category cannot be deleted",
+        )
     delete_category(
         db,
         category,

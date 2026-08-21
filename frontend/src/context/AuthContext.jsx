@@ -5,6 +5,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -14,6 +15,8 @@ export const AuthProvider = ({ children }) => {
         if (storedUser && token) {
             setUser(JSON.parse(storedUser));
         }
+
+        setLoading(false);
 
     }, []);
 
@@ -49,6 +52,7 @@ export const AuthProvider = ({ children }) => {
                 user,
                 login,
                 logout,
+                loading,
             }}
         >
             {children}

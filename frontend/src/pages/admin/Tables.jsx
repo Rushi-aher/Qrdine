@@ -170,9 +170,8 @@ const Tables = () => {
 
 
     const getMenuUrl = (tableId) => {
-
-        return `${window.location.origin}/menu?table=${tableId}`;
-
+        const baseUrl = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
+        return `${baseUrl}/menu?table=${tableId}`;
     };
 
 

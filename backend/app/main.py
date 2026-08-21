@@ -13,6 +13,8 @@ from app.api.v1 import (
     menu_router,
     order_router,
     dashboard_router,
+    analytics_router,
+
 )
 
 
@@ -59,6 +61,8 @@ app.include_router(menu_router)
 app.include_router(order_router)
 
 app.include_router(dashboard_router)
+
+app.include_router(analytics_router)
 
 
 @app.get("/")
