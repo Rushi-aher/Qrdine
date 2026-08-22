@@ -1,5 +1,6 @@
 .orders-page {
     padding: 24px;
+    color: var(--text);
 }
 
 .orders-header {
@@ -17,7 +18,7 @@
 
 .orders-header p {
     margin-top: 6px;
-    color: #6b7280;
+    color: var(--text-light);
 }
 
 .orders-toolbar {
@@ -31,8 +32,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 10px;
     padding: 10px 14px;
     width: 320px;
@@ -44,13 +45,14 @@
     width: 100%;
     font-size: 15px;
     background: transparent;
+    color: var(--text);
 }
 
 .order-table-container {
-    background: white;
+    background: var(--surface);
     border-radius: 12px;
     overflow-x: auto;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-card);
 }
 
 .order-table {
@@ -59,21 +61,23 @@
 }
 
 .order-table th {
-    background: #f9fafb;
+    background: var(--background);
+    color: var(--text);
     padding: 14px;
     text-align: left;
     font-weight: 600;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--border);
 }
 
 .order-table td {
     padding: 14px;
-    border-bottom: 1px solid #f1f5f9;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
     vertical-align: top;
 }
 
 .order-table tr:hover {
-    background: #fafafa;
+    background: var(--background);
 }
 
 .status-badge {
@@ -88,13 +92,13 @@
 .order-table select {
     padding: 8px 10px;
     border-radius: 8px;
-    border: 1px solid #d1d5db;
-    background: white;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
     cursor: pointer;
 }
 
 @media (max-width: 768px) {
-
     .orders-header {
         flex-direction: column;
         align-items: flex-start;
@@ -104,5 +108,4 @@
     .search-box {
         width: 100%;
     }
-
 }

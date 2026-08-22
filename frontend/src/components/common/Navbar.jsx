@@ -1,62 +1,62 @@
-import { Link } from "react-router-dom";
-import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
+// import { Link } from "react-router-dom";
+// import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 
-import { useCart } from "../../context/CartContext";
+// import { useCart } from "../../context/CartContext";
 
-import "./Navbar.css";
+// import "./Navbar.css";
 
-const Navbar = () => {
+// const Navbar = () => {
 
-    const { totalItems } = useCart();
+//     const { totalItems } = useCart();
 
-    return (
+//     return (
 
-        <nav className="navbar">
+//         <nav className="navbar">
 
-            <div className="navbar-logo">
+//             <div className="navbar-logo">
 
-                <Link to="/restaurant-search">
+//                 <Link to="/restaurant-search">
 
-                    QRdine
+//                     QRdine
 
-                </Link>
+//                 </Link>
 
-            </div>
+//             </div>
 
-            <div className="navbar-links">
+//             <div className="navbar-links">
 
-                <Link to="/restaurant-search">
+//                 <Link to="/restaurant-search">
 
-                    Restaurants
+//                     Restaurants
 
-                </Link>
+//                 </Link>
 
-                <Link to="/cart" className="cart-link">
+//                 <Link to="/cart" className="cart-link">
 
-                    <FaShoppingCart />
+//                     <FaShoppingCart />
 
-                    {
+//                     {
 
-                        totalItems > 0 &&
+//                         totalItems > 0 &&
 
-                        <span className="cart-badge">
+//                         <span className="cart-badge">
 
-                            {totalItems}
+//                             {totalItems}
 
-                        </span>
+//                         </span>
 
-                    }
+//                     }
 
-                </Link>
+//                 </Link>
 
-                <FaUserCircle className="profile-icon"/>
+//                 <FaUserCircle className="profile-icon"/>
 
-            </div>
+//             </div>
 
-        </nav>
+//         </nav>
 
-    );
+//     );
 
-};
+// };
 
-export default Navbar;
+// export default Navbar;

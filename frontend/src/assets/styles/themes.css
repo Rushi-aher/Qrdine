@@ -1,0 +1,94 @@
+/* =========================
+   GREEN
+   ========================= */
+
+[data-theme="green"] {
+    --primary: #16A34A;
+    --primary-dark: #15803D;
+    --secondary: #F59E0B;
+    --background: #F8FAFC;
+    --surface: #FFFFFF;
+    --text: #111827;
+    --text-light: #6B7280;
+    --border: #E5E7EB;
+}
+
+
+/* =========================
+   OCEAN
+   ========================= */
+
+[data-theme="ocean"] {
+    --primary: #0284C7;
+    --primary-dark: #0369A1;
+    --secondary: #06B6D4;
+    --background: #F0F9FF;
+    --surface: #FFFFFF;
+    --text: #0F172A;
+    --text-light: #64748B;
+    --border: #BAE6FD;
+}
+
+
+/* =========================
+   PURPLE
+   ========================= */
+
+[data-theme="purple"] {
+    --primary: #7C3AED;
+    --primary-dark: #6D28D9;
+    --secondary: #EC4899;
+    --background: #FAF5FF;
+    --surface: #FFFFFF;
+    --text: #1F2937;
+    --text-light: #6B7280;
+    --border: #E9D5FF;
+}
+
+
+/* =========================
+   SUNSET
+   ========================= */
+
+[data-theme="sunset"] {
+    --primary: #EA580C;
+    --primary-dark: #C2410C;
+    --secondary: #F59E0B;
+    --background: #FFF7ED;
+    --surface: #FFFFFF;
+    --text: #431407;
+    --text-light: #78716C;
+    --border: #FED7AA;
+}
+
+
+/* =========================
+   RUBY
+   ========================= */
+
+[data-theme="ruby"] {
+    --primary: #E11D48;
+    --primary-dark: #BE123C;
+    --secondary: #F97316;
+    --background: #FFF1F2;
+    --surface: #FFFFFF;
+    --text: #1F2937;
+    --text-light: #6B7280;
+    --border: #FECDD3;
+}
+
+
+/* =========================
+   DARK
+   ========================= */
+
+[data-theme="dark"] {
+    --primary: #22C55E;
+    --primary-dark: #16A34A;
+    --secondary: #F59E0B;
+    --background: #111827;
+    --surface: #1F2937;
+    --text: #F9FAFB;
+    --text-light: #9CA3AF;
+    --border: #374151;
+}

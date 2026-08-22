@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import FoodCard from "../../components/customer/FoodCard";
 import FloatingCart from "../../components/customer/FloatingCart";
 import OrderStatusTracker from "../../components/customer/OrderStatusTracker";
+import CustomerNavbar from "../../components/customer/CustomerNavbar";
 
 import api from "../../services/api";
 
@@ -150,6 +151,8 @@ const MenuPage = () => {
     return (
 
         <div className="menu-page">
+
+            <CustomerNavbar />
 
             <div className="restaurant-banner">
 

@@ -1,0 +1,73 @@
+export const themes = {
+    green: {
+        name: "Green",
+        primary: "#16A34A",
+        primaryDark: "#15803D",
+        secondary: "#F59E0B",
+        background: "#F8FAFC",
+        surface: "#FFFFFF",
+        text: "#111827",
+        textLight: "#6B7280",
+        border: "#E5E7EB",
+    },
+
+    blue: {
+        name: "Ocean Blue",
+        primary: "#2563EB",
+        primaryDark: "#1D4ED8",
+        secondary: "#06B6D4",
+        background: "#F1F5F9",
+        surface: "#FFFFFF",
+        text: "#0F172A",
+        textLight: "#64748B",
+        border: "#CBD5E1",
+    },
+
+    purple: {
+        name: "Purple",
+        primary: "#7C3AED",
+        primaryDark: "#6D28D9",
+        secondary: "#EC4899",
+        background: "#FAF5FF",
+        surface: "#FFFFFF",
+        text: "#1F2937",
+        textLight: "#6B7280",
+        border: "#E9D5FF",
+    },
+
+    orange: {
+        name: "Orange",
+        primary: "#EA580C",
+        primaryDark: "#C2410C",
+        secondary: "#FACC15",
+        background: "#FFF7ED",
+        surface: "#FFFFFF",
+        text: "#1C1917",
+        textLight: "#78716C",
+        border: "#FED7AA",
+    },
+
+    red: {
+        name: "Red",
+        primary: "#DC2626",
+        primaryDark: "#B91C1C",
+        secondary: "#F97316",
+        background: "#FEF2F2",
+        surface: "#FFFFFF",
+        text: "#1F2937",
+        textLight: "#6B7280",
+        border: "#FECACA",
+    },
+
+    dark: {
+        name: "Dark",
+        primary: "#22C55E",
+        primaryDark: "#16A34A",
+        secondary: "#F59E0B",
+        background: "#111827",
+        surface: "#1F2937",
+        text: "#F9FAFB",
+        textLight: "#9CA3AF",
+        border: "#374151",
+    },
+};

@@ -1,104 +1,79 @@
-.recent-orders{
-
-    background:var(--surface);
-
-    border-radius:var(--radius-lg);
-
-    box-shadow:var(--shadow-card);
-
-    padding:25px;
-
+.recent-orders {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 25px;
 }
 
-.recent-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:20px;
-
+.recent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.recent-header button{
-
-    border:none;
-
-    background:var(--primary);
-
-    color:white;
-
-    padding:10px 18px;
-
-    border-radius:var(--radius-sm);
-
-    cursor:pointer;
-
+.recent-header h2,
+.recent-header h3 {
+    color: var(--text);
 }
 
-table{
-
-    width:100%;
-
-    border-collapse:collapse;
-
+.recent-header button {
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-th{
-
-    text-align:left;
-
-    padding:16px;
-
-    color:var(--text-light);
-
+.recent-header button:hover {
+    background: var(--primary-dark);
 }
 
-td{
+.recent-orders table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-    padding:18px 16px;
+.recent-orders th {
+    text-align: left;
+    padding: 16px;
+    color: var(--text-light);
+    background: var(--background);
+}
 
-    border-top:1px solid var(--border);
-
+.recent-orders td {
+    padding: 18px 16px;
+    color: var(--text);
+    border-top: 1px solid var(--border);
 }
 
 .pending,
 .preparing,
 .ready,
-.completed{
-
-    padding:7px 15px;
-
-    border-radius:50px;
-
-    color:white;
-
-    font-size:13px;
-
+.completed {
+    padding: 7px 15px;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
 }
 
-.pending{
-
-    background:#f59e0b;
-
+.pending {
+    background: #f59e0b;
 }
 
-.preparing{
-
-    background:#3b82f6;
-
+.preparing {
+    background: #3b82f6;
 }
 
-.ready{
-
-    background:#16a34a;
-
+.ready {
+    background: #16a34a;
 }
 
-.completed{
-
-    background:#6b7280;
-
+.completed {
+    background: #6b7280;
 }

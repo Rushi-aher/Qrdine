@@ -33,18 +33,14 @@ const Signup = () => {
     });
 
     const [error, setError] = useState("");
-
     const [loading, setLoading] = useState(false);
 
 
     const handleChange = (e) => {
 
         setFormData({
-
             ...formData,
-
             [e.target.name]: e.target.value,
-
         });
 
     };
@@ -67,16 +63,17 @@ const Signup = () => {
             setError("Please fill in all fields.");
 
             return;
-
         }
 
 
-        if (formData.password !== formData.confirm_password) {
+        if (
+            formData.password !==
+            formData.confirm_password
+        ) {
 
             setError("Passwords do not match.");
 
             return;
-
         }
 
 
@@ -106,7 +103,8 @@ const Signup = () => {
             console.error("Signup Error:", error);
 
 
-            const detail = error.response?.data?.detail;
+            const detail =
+                error.response?.data?.detail;
 
 
             if (Array.isArray(detail)) {
@@ -117,17 +115,15 @@ const Signup = () => {
                         .join(", ")
                 );
 
-            }
-
-            else if (typeof detail === "string") {
+            } else if (typeof detail === "string") {
 
                 setError(detail);
 
-            }
+            } else {
 
-            else {
-
-                setError("Account creation failed.");
+                setError(
+                    "Account creation failed."
+                );
 
             }
 
@@ -143,23 +139,24 @@ const Signup = () => {
 
     return (
 
-        <div className="login-page">
+        <div className="auth-page">
 
 
-            <div className="login-left">
+            <div className="auth-left">
 
                 <h1>QRdine</h1>
 
                 <h2>Create your account</h2>
 
                 <p>
-                    Join QRdine and experience seamless digital dining.
+                    Join QRdine and experience
+                    seamless digital dining.
                 </p>
 
             </div>
 
 
-            <div className="login-right">
+            <div className="auth-right">
 
                 <Card>
 
@@ -197,19 +194,18 @@ const Signup = () => {
                         <Select
                             label="Register As"
                             value={role}
-                            onChange={(e) => setRole(e.target.value)}
+                            onChange={(e) =>
+                                setRole(e.target.value)
+                            }
                             options={[
-
                                 {
                                     label: "Customer",
                                     value: "customer",
                                 },
-
                                 {
                                     label: "Restaurant Admin",
                                     value: "owner",
                                 },
-
                             ]}
                         />
 
@@ -240,7 +236,7 @@ const Signup = () => {
 
                             <p
                                 style={{
-                                    color: "red",
+                                    color: "#dc3545",
                                     marginTop: "10px",
                                 }}
                             >
@@ -282,7 +278,6 @@ const Signup = () => {
                 </Card>
 
             </div>
-
 
         </div>
 
