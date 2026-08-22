@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 
 import { getRestaurants } from "../../services/restaurantService";
+import CustomerNavbar from "../../components/customer/CustomerNavbar";
 
 import "./RestaurantSearch.css";
 
@@ -120,6 +121,8 @@ const RestaurantSearch = () => {
 
             <div className="restaurant-search-page">
 
+                <CustomerNavbar />
+
                 <div className="restaurant-state">
 
                     <div className="state-icon">
@@ -152,6 +155,8 @@ const RestaurantSearch = () => {
     return (
 
         <div className="restaurant-search-page">
+
+            <CustomerNavbar />
 
             <section className="restaurant-hero">
 

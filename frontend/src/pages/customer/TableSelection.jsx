@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 
 import api from "../../services/api";
-
+import CustomerNavbar from "../../components/customer/CustomerNavbar";
 import "./TableSelection.css";
 
 const TableSelection = () => {
@@ -136,6 +136,8 @@ const TableSelection = () => {
 
             <div className="table-selection-page">
 
+                <CustomerNavbar />
+
                 <div className="table-error">
 
                     <div className="table-state-icon">
@@ -170,6 +172,9 @@ const TableSelection = () => {
     return (
 
         <div className="table-selection-page">
+
+            <CustomerNavbar />
+
 
             <header className="table-selection-header">
 

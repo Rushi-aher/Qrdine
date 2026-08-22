@@ -10,6 +10,9 @@ from app.services.user_service import (
     create_user,
     get_user_by_email,
 )
+from pydantic import BaseModel
+from app.dependencies.auth import get_current_user
+from app.core.security import verify_password, hash_password
 
 router = APIRouter(
     prefix="/auth",
@@ -65,4 +68,33 @@ def login(
     return {
         "access_token": access_token,
         "token_type": "bearer",
+    }
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+@router.put("/change-password")
+def change_password(
+    data: ChangePasswordRequest,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    if not verify_password(
+        data.current_password,
+        current_user.password,
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Current password is incorrect",
+        )
+
+    current_user.password = hash_password(
+        data.new_password
+    )
+
+    db.commit()
+
+    return {
+        "message": "Password changed successfully"
     }

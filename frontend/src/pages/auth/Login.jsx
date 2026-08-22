@@ -3,11 +3,10 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 
 import {
-  Button,
-  Card,
-  Checkbox,
-  Input,
-  Select,
+    Button,
+    Card,
+    Checkbox,
+    Input,
 } from "../../components/ui";
 
 import { useAuth } from "../../context/AuthContext";
@@ -15,148 +14,222 @@ import { loginUser } from "../../services/authService";
 
 import "../../assets/styles/auth.css";
 
+
+const DEMO_CREDENTIALS = [
+    {
+        label: "Customer Demo",
+        email: "customer@example.com",
+        password: "Password@123",
+    },
+    {
+        label: "Restaurant Admin Demo",
+        email: "owner@example.com",
+        password: "Password@123",
+    },
+];
+
+
 const Login = () => {
-  const [role, setRole] = useState("customer");
-  const [remember, setRemember] = useState(false);
 
-  const [email, setEmail] = useState("rushikesh@example.com");
-  const [password, setPassword] = useState("Password@123");
+    const [remember, setRemember] = useState(false);
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { login } = useAuth();
+    const [email, setEmail] = useState("rushikesh@example.com");
+    const [password, setPassword] = useState("Password@123");
 
-  const handleLogin = async () => {
-    try {
-      const response = await loginUser(email, password);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-      const token = response.access_token;
+    const { login } = useAuth();
 
-      const payload = JSON.parse(
-        atob(token.split(".")[1])
-      );
 
-      console.log("JWT Payload:", payload);
-      console.log("Role:", payload.role);
+    const handleLogin = async () => {
 
-      const userData = {
-        email: payload.sub,
-        role: payload.role,
-      };
+        try {
 
-      login(userData, token);
+            const response = await loginUser(
+                email,
+                password
+            );
 
-      if (payload.role === "OWNER") {
-        navigate("/admin/dashboard");
-      } else {
-        const redirectTo = location.state?.from;
-        navigate(redirectTo || "/restaurant-search");
-      }
-    } catch (error) {
-      console.error("Login Error:", error);
+            const token = response.access_token;
 
-      alert(
-        error.response?.data?.detail ||
-          "Login failed"
-      );
-    }
-  };
+            const payload = JSON.parse(
+                atob(token.split(".")[1])
+            );
 
-  return (
-    <div className="login-page">
+            console.log("JWT Payload:", payload);
+            console.log("Role:", payload.role);
 
-      <div className="login-left">
 
-        <h1>QRdine</h1>
+            const userData = {
+                email: payload.sub,
+                role: payload.role,
+            };
 
-        <h2>Scan. Order. Dine.</h2>
 
-        <p>
-          Experience a smarter way to dine.
-          Scan the QR code, browse the menu,
-          and place your order instantly.
-        </p>
+            login(userData, token);
 
-      </div>
 
-      <div className="login-right">
+            if (payload.role === "OWNER") {
 
-        <Card>
+                navigate("/admin/dashboard");
 
-          <h2>Welcome Back 👋</h2>
+            } else {
 
-          <p>Login to continue.</p>
+                const redirectTo = location.state?.from;
 
-          <Select
-            label="Login As"
-            value={role}
-            onChange={(e) =>
-              setRole(e.target.value)
+                navigate(
+                    redirectTo || "/restaurant-search"
+                );
+
             }
-            options={[
-              {
-                label: "Customer",
-                value: "customer",
-              },
-              {
-                label: "Restaurant Admin",
-                value: "admin",
-              },
-            ]}
-          />
 
-          <Input
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            placeholder="Enter your email"
-            icon={<FaEnvelope />}
-          />
+        } catch (error) {
 
-          <Input
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-            placeholder="Enter your password"
-            icon={<FaLock />}
-          />
+            console.error("Login Error:", error);
 
-          <Checkbox
-            checked={remember}
-            onChange={() =>
-              setRemember(!remember)
-            }
-            label="Remember Me"
-          />
+            alert(
+                error.response?.data?.detail ||
+                "Login failed"
+            );
 
-          <Button onClick={handleLogin}>
-            Login
-          </Button>
+        }
 
-          <div className="auth-bottom">
+    };
 
-            <Link to="#">
-              Forgot Password?
-            </Link>
 
-            <Link to="/signup">
-              Create Account
-            </Link>
+    const fillDemoCredentials = (demo) => {
 
-          </div>
+        setEmail(demo.email);
+        setPassword(demo.password);
 
-        </Card>
+    };
 
-      </div>
 
-    </div>
-  );
+    return (
+
+        <div className="auth-page">
+
+            <div className="auth-left">
+
+                <h1>QRdine</h1>
+
+                <h2>Scan. Order. Dine.</h2>
+
+                <p>
+                    Experience a smarter way to dine.
+                    Scan the QR code, browse the menu,
+                    and place your order instantly.
+                </p>
+
+
+                <div className="demo-credentials">
+
+                    <p className="demo-credentials-title">
+                        Demo Credentials (click to autofill)
+                    </p>
+
+
+                    {DEMO_CREDENTIALS.map((demo) => (
+
+                        <button
+                            key={demo.label}
+                            type="button"
+                            className="demo-credential-card"
+                            onClick={() =>
+                                fillDemoCredentials(demo)
+                            }
+                        >
+
+                            <span className="demo-credential-label">
+                                {demo.label}
+                            </span>
+
+                            <span className="demo-credential-detail">
+                                {demo.email}
+                            </span>
+
+                            <span className="demo-credential-detail">
+                                {demo.password}
+                            </span>
+
+                        </button>
+
+                    ))}
+
+                </div>
+
+            </div>
+
+
+            <div className="auth-right">
+
+                <Card>
+
+                    <h2>Welcome Back 👋</h2>
+
+                    <p>Login to continue.</p>
+
+
+                    <Input
+                        label="Email"
+                        type="email"
+                        value={email}
+                        onChange={(e) =>
+                            setEmail(e.target.value)
+                        }
+                        placeholder="Enter your email"
+                        icon={<FaEnvelope />}
+                    />
+
+
+                    <Input
+                        label="Password"
+                        type="password"
+                        value={password}
+                        onChange={(e) =>
+                            setPassword(e.target.value)
+                        }
+                        placeholder="Enter your password"
+                        icon={<FaLock />}
+                    />
+
+
+                    <Checkbox
+                        checked={remember}
+                        onChange={() =>
+                            setRemember(!remember)
+                        }
+                        label="Remember Me"
+                    />
+
+
+                    <Button onClick={handleLogin}>
+                        Login
+                    </Button>
+
+
+                    <div className="auth-bottom">
+
+                        <Link to="#">
+                            Forgot Password?
+                        </Link>
+
+                        <Link to="/signup">
+                            Create Account
+                        </Link>
+
+                    </div>
+
+                </Card>
+
+            </div>
+
+        </div>
+
+    );
+
 };
+
 
 export default Login;
