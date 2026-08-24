@@ -1,3 +1,5 @@
+from datetime import date
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -32,6 +34,7 @@ router = APIRouter(
 # ------------------------
 # Customer places an order
 # ------------------------
+
 @router.post("", response_model=OrderResponse)
 def place_order(
     order: OrderCreate,
@@ -60,23 +63,34 @@ def place_order(
     db.flush()
 
     for item in order.items:
+
         food = (
             db.query(FoodItem)
-            .filter(FoodItem.id == item.food_item_id)
+            .filter(
+                FoodItem.id == item.food_item_id
+            )
             .first()
         )
 
         if food is None:
             raise HTTPException(
                 status_code=404,
-                detail=f"Food Item {item.food_item_id} not found",
+                detail=(
+                    f"Food Item "
+                    f"{item.food_item_id} not found"
+                ),
             )
 
         # Check stock availability
         if food.available_quantity < item.quantity:
             raise HTTPException(
                 status_code=400,
-                detail=f"Only {food.available_quantity} items available for {food.name}",
+                detail=(
+                    f"Only "
+                    f"{food.available_quantity} "
+                    f"items available for "
+                    f"{food.name}"
+                ),
             )
 
         # Reduce stock
@@ -99,17 +113,105 @@ def place_order(
 
     return new_order
 
+
+# ------------------------
+# Customer gets today's
+# orders for a table
+# ------------------------
+
+@router.get(
+    "/table/{table_id}/today",
+    response_model=list[OrderListResponse],
+)
+def get_today_table_orders(
+    table_id: int,
+    db: Session = Depends(get_db),
+):
+    table = (
+        db.query(RestaurantTable)
+        .filter(
+            RestaurantTable.id == table_id
+        )
+        .first()
+    )
+
+    if table is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Table not found",
+        )
+
+    today = date.today()
+
+    orders = (
+        db.query(Order)
+        .filter(
+            Order.table_id == table_id,
+            Order.created_at >= today,
+        )
+        .order_by(
+            Order.created_at.desc()
+        )
+        .all()
+    )
+
+    result = []
+
+    for order in orders:
+
+        result.append({
+
+            "id": order.id,
+
+            "table_number":
+                order.table.table_number,
+
+            "customer_name":
+                order.customer_name,
+
+            "status":
+                order.status,
+
+            "created_at":
+                order.created_at,
+
+            "items": [
+
+                {
+                    "food_item_name":
+                        item.food_item.name,
+
+                    "quantity":
+                        item.quantity,
+                }
+
+                for item in order.order_items
+
+            ],
+
+        })
+
+    return result
+
+
 # ------------------------
 # Owner sees all orders
 # ------------------------
-@router.get("", response_model=list[OrderListResponse])
+
+@router.get(
+    "",
+    response_model=list[OrderListResponse],
+)
 def list_orders(
     db: Session = Depends(get_db),
     current_user=Depends(owner_required),
 ):
     restaurant = (
         db.query(Restaurant)
-        .filter(Restaurant.owner_id == current_user.id)
+        .filter(
+            Restaurant.owner_id ==
+            current_user.id
+        )
         .first()
     )
 
@@ -132,22 +234,26 @@ def list_orders(
 
             "id": order.id,
 
-            "table_number": order.table.table_number,
+            "table_number":
+                order.table.table_number,
 
-            "customer_name": order.customer_name,
+            "customer_name":
+                order.customer_name,
 
-            "status": order.status,
+            "status":
+                order.status,
 
-            "created_at": order.created_at,
+            "created_at":
+                order.created_at,
 
             "items": [
 
                 {
+                    "food_item_name":
+                        item.food_item.name,
 
-                    "food_item_name": item.food_item.name,
-
-                    "quantity": item.quantity,
-
+                    "quantity":
+                        item.quantity,
                 }
 
                 for item in order.order_items
@@ -158,14 +264,15 @@ def list_orders(
 
     return result
 
-# ------------------------
-# Owner updates order status
-# ------------------------
-#========================
+
 # ------------------------
 # Customer gets order status
 # ------------------------
-@router.get("/{order_id}", response_model=OrderResponse)
+
+@router.get(
+    "/{order_id}",
+    response_model=OrderResponse,
+)
 def get_order_status(
     order_id: int,
     db: Session = Depends(get_db),
@@ -182,10 +289,16 @@ def get_order_status(
         )
 
     return order
-#========================
 
 
-@router.put("/{order_id}", response_model=OrderResponse)
+# ------------------------
+# Owner updates order status
+# ------------------------
+
+@router.put(
+    "/{order_id}",
+    response_model=OrderResponse,
+)
 def change_order_status(
     order_id: int,
     status_data: OrderStatusUpdate,
@@ -194,7 +307,10 @@ def change_order_status(
 ):
     restaurant = (
         db.query(Restaurant)
-        .filter(Restaurant.owner_id == current_user.id)
+        .filter(
+            Restaurant.owner_id ==
+            current_user.id
+        )
         .first()
     )
 
@@ -242,10 +358,14 @@ def change_order_status(
         order,
     )
 
+
 # ------------------------
 # Owner deletes an order
 # ------------------------
-@router.delete("/{order_id}")
+
+@router.delete(
+    "/{order_id}"
+)
 def delete_order(
     order_id: int,
     db: Session = Depends(get_db),
@@ -253,7 +373,10 @@ def delete_order(
 ):
     restaurant = (
         db.query(Restaurant)
-        .filter(Restaurant.owner_id == current_user.id)
+        .filter(
+            Restaurant.owner_id ==
+            current_user.id
+        )
         .first()
     )
 
@@ -284,5 +407,6 @@ def delete_order(
     db.commit()
 
     return {
-        "message": "Order deleted successfully"
+        "message":
+            "Order deleted successfully"
     }

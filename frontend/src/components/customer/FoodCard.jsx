@@ -1,21 +1,27 @@
+import { useState } from "react";
+
 import "./FoodCard.css";
+
 import { useCart } from "../../context/CartContext";
+
 
 const FoodCard = ({ food }) => {
 
     const {
-
         cart,
-
         addToCart,
-
         increaseQuantity,
-
         decreaseQuantity
-
     } = useCart();
 
-    const cartItem = cart.find(item => item.id === food.id);
+
+    const [expanded, setExpanded] = useState(false);
+
+
+    const cartItem = cart.find(
+        item => item.id === food.id
+    );
+
 
     return (
 
@@ -26,70 +32,101 @@ const FoodCard = ({ food }) => {
                 alt={food.name}
             />
 
+
             <div className="food-content">
 
-                <h3>{food.name}</h3>
+                <h3>
+                    {food.name}
+                </h3>
 
-                <p>{food.description}</p>
+
+                <div
+                    className={`food-description ${
+                        expanded
+                            ? "expanded"
+                            : ""
+                    }`}
+                >
+
+                    <p>
+                        {food.description}
+                    </p>
+
+                </div>
+
+
+                {food.description &&
+                    food.description.length > 70 && (
+
+                    <button
+                        className="read-more-btn"
+                        onClick={() =>
+                            setExpanded(
+                                previous =>
+                                    !previous
+                            )
+                        }
+                    >
+                        {expanded
+                            ? "Read less"
+                            : "Read more"
+                        }
+                    </button>
+
+                )}
+
 
                 <div className="food-bottom">
 
-                    <span>₹{food.price}</span>
+                    <span>
+                        ₹{food.price}
+                    </span>
 
-                    {
 
-                        !cartItem ?
+                    {!cartItem ? (
 
-                            (
+                        <button
+                            className="add-btn"
+                            onClick={() =>
+                                addToCart(food)
+                            }
+                        >
+                            Add
+                        </button>
 
-                                <button
-                                    className="add-btn"
-                                    onClick={() => addToCart(food)}
-                                >
+                    ) : (
 
-                                    Add
+                        <div className="quantity-box">
 
-                                </button>
+                            <button
+                                onClick={() =>
+                                    decreaseQuantity(
+                                        food.id
+                                    )
+                                }
+                            >
+                                −
+                            </button>
 
-                            )
 
-                            :
+                            <span>
+                                {cartItem.quantity}
+                            </span>
 
-                            (
 
-                                <div className="quantity-box">
+                            <button
+                                onClick={() =>
+                                    increaseQuantity(
+                                        food.id
+                                    )
+                                }
+                            >
+                                +
+                            </button>
 
-                                    <button
+                        </div>
 
-                                        onClick={() => decreaseQuantity(food.id)}
-
-                                    >
-
-                                        -
-
-                                    </button>
-
-                                    <span>
-
-                                        {cartItem.quantity}
-
-                                    </span>
-
-                                    <button
-
-                                        onClick={() => increaseQuantity(food.id)}
-
-                                    >
-
-                                        +
-
-                                    </button>
-
-                                </div>
-
-                            )
-
-                    }
+                    )}
 
                 </div>
 
@@ -100,5 +137,6 @@ const FoodCard = ({ food }) => {
     );
 
 };
+
 
 export default FoodCard;

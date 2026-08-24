@@ -1,51 +1,103 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import api from "../../services/api";
 
 import "./OrderStatusTracker.css";
 
+
 const OrderStatusTracker = () => {
 
-    const [order, setOrder] = useState(null);
+    const [searchParams] = useSearchParams();
+
+    const tableId = searchParams.get("table");
+
+
+    const [orders, setOrders] = useState([]);
+
     const [loading, setLoading] = useState(true);
+
+    const [expanded, setExpanded] = useState(false);
+
 
     useEffect(() => {
 
-        const savedOrderId =
-            localStorage.getItem("currentOrderId");
+        if (!tableId) {
 
-        if (!savedOrderId) {
             setLoading(false);
+
             return;
+
         }
 
-        loadOrder(savedOrderId);
+
+        loadOrders();
+
 
         const interval = setInterval(() => {
-            loadOrder(savedOrderId);
+
+            loadOrders();
+
         }, 5000);
 
-        return () => clearInterval(interval);
 
-    }, []);
+        return () => {
+
+            clearInterval(interval);
+
+        };
+
+    }, [tableId]);
 
 
-    const loadOrder = async (orderId) => {
+    const loadOrders = async () => {
 
         try {
 
             const response = await api.get(
-                `/orders/${orderId}`
+                `/orders/table/${tableId}/today`
             );
 
-            setOrder(response.data);
+
+            const today = new Date();
+
+
+            /*
+             * Extra frontend protection:
+             * Only keep today's orders.
+             */
+
+            const todaysOrders =
+                response.data.filter((order) => {
+
+                    const orderDate =
+                        new Date(
+                            order.created_at
+                        );
+
+
+                    return (
+                        orderDate.getDate() ===
+                            today.getDate() &&
+
+                        orderDate.getMonth() ===
+                            today.getMonth() &&
+
+                        orderDate.getFullYear() ===
+                            today.getFullYear()
+                    );
+
+                });
+
+
+            setOrders(todaysOrders);
 
         }
 
         catch (error) {
 
             console.error(
-                "Order Status Error:",
+                "Order Tracker Error:",
                 error
             );
 
@@ -60,8 +112,15 @@ const OrderStatusTracker = () => {
     };
 
 
-    if (loading || !order) {
+    /*
+     * Don't show tracker while loading
+     * or when there are no orders.
+     */
+
+    if (loading || orders.length === 0) {
+
         return null;
+
     }
 
 
@@ -73,105 +132,337 @@ const OrderStatusTracker = () => {
     ];
 
 
-    const currentIndex =
-        statuses.indexOf(order.status);
+    const getStatusText = (status) => {
 
+        switch (status) {
+
+            case "PENDING":
+                return "Order received";
+
+            case "PREPARING":
+                return "Preparing";
+
+            case "READY":
+                return "Ready";
+
+            case "COMPLETED":
+                return "Completed";
+
+            case "CANCELLED":
+                return "Cancelled";
+
+            default:
+                return status;
+
+        }
+
+    };
+
+
+    const getStatusMessage = (status) => {
+
+        switch (status) {
+
+            case "PENDING":
+                return "Your order has been received.";
+
+            case "PREPARING":
+                return "Your food is being prepared.";
+
+            case "READY":
+                return "Your order is ready!";
+
+            case "COMPLETED":
+                return "Your order has been completed.";
+
+            case "CANCELLED":
+                return "Your order has been cancelled.";
+
+            default:
+                return "Your order is being processed.";
+
+        }
+
+    };
+
+
+    const formatTime = (dateString) => {
+
+        const date =
+            new Date(dateString);
+
+
+        return date.toLocaleTimeString(
+            [],
+            {
+                hour: "numeric",
+                minute: "2-digit"
+            }
+        );
+
+    };
+
+
+    const getCurrentIndex = (status) => {
+
+        return statuses.indexOf(status);
+
+    };
+
+
+    /*
+     * Small floating button
+     */
+
+    if (!expanded) {
+
+        const activeOrders =
+            orders.filter(
+                order =>
+                    order.status !==
+                        "COMPLETED" &&
+                    order.status !==
+                        "CANCELLED"
+            );
+
+
+        const latestOrder =
+            activeOrders.length > 0
+                ? activeOrders[0]
+                : orders[0];
+
+
+        return (
+
+            <button
+                className="order-status-mini"
+                onClick={() =>
+                    setExpanded(true)
+                }
+                aria-label="View orders"
+            >
+
+                <div className="status-spinner"></div>
+
+
+                <div className="status-spinner-inner">
+
+                    <span>
+                        {activeOrders.length > 0
+                            ? getStatusText(
+                                latestOrder.status
+                            )
+                            : `${orders.length} Orders`
+                        }
+                    </span>
+
+                </div>
+
+            </button>
+
+        );
+
+    }
+
+
+    /*
+     * Expanded tracker
+     */
 
     return (
 
         <div className="order-status-tracker">
 
-            <div className="order-status-header">
+            <div className="tracker-top">
 
                 <div>
 
                     <h3>
-                        Your Order #{order.id}
+                        Your Orders
                     </h3>
 
                     <p>
-                        Table {order.table_id}
+                        {orders.length} order
+                        {orders.length !== 1
+                            ? "s"
+                            : ""
+                        } today
                     </p>
 
                 </div>
 
-                <span className="current-status">
-                    {order.status}
-                </span>
+
+                <button
+                    className="tracker-close"
+                    onClick={() =>
+                        setExpanded(false)
+                    }
+                    aria-label="Close"
+                >
+                    ✕
+                </button>
 
             </div>
 
 
-            <div className="status-progress">
+            <div className="orders-list">
 
-                {statuses.map((status, index) => {
+                {orders.map((order) => {
 
-                    const completed =
-                        index <= currentIndex;
+                    const currentIndex =
+                        getCurrentIndex(
+                            order.status
+                        );
+
 
                     return (
 
                         <div
-                            key={status}
-                            className={`status-step ${
-                                completed
-                                    ? "completed"
-                                    : ""
-                            }`}
+                            className="order-card"
+                            key={order.id}
                         >
 
-                            <div className="status-circle">
+                            {/* Order Header */}
 
-                                {completed
-                                    ? "✓"
-                                    : index + 1}
+                            <div className="order-header">
+
+                                <div>
+
+                                    <h4>
+                                        Order #{order.id}
+                                    </h4>
+
+                                    <span>
+                                        {formatTime(
+                                            order.created_at
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <span
+                                    className={`order-status-badge status-${order.status.toLowerCase()}`}
+                                >
+                                    {getStatusText(
+                                        order.status
+                                    )}
+                                </span>
 
                             </div>
 
-                            <span>
-                                {status}
-                            </span>
+
+                            {/* Items */}
+
+                            <div className="order-items">
+
+                                {order.items.map(
+                                    (item, index) => (
+
+                                        <div
+                                            className="order-item"
+                                            key={index}
+                                        >
+
+                                            <span>
+                                                {item.food_item_name}
+                                            </span>
+
+                                            <span>
+                                                × {item.quantity}
+                                            </span>
+
+                                        </div>
+
+                                    )
+                                )}
+
+                            </div>
+
+
+                            {/* Progress */}
+
+                            {order.status !==
+                                "CANCELLED" && (
+
+                                <div className="status-progress">
+
+                                    {statuses.map(
+                                        (
+                                            status,
+                                            index
+                                        ) => {
+
+                                            const completed =
+                                                index <=
+                                                currentIndex;
+
+
+                                            return (
+
+                                                <div
+                                                    key={status}
+                                                    className={`status-step ${
+                                                        completed
+                                                            ? "completed"
+                                                            : ""
+                                                    }`}
+                                                >
+
+                                                    <div className="status-circle">
+
+                                                        {completed
+                                                            ? "✓"
+                                                            : index + 1
+                                                        }
+
+                                                    </div>
+
+                                                    <span>
+                                                        {status}
+                                                    </span>
+
+                                                </div>
+
+                                            );
+
+                                        }
+                                    )}
+
+                                </div>
+
+                            )}
+
+
+                            {/* Message */}
+
+                            <div className="order-status-message">
+
+                                {order.status ===
+                                    "CANCELLED" ? (
+
+                                    <p>
+                                        ❌ This order
+                                        was cancelled.
+                                    </p>
+
+                                ) : (
+
+                                    <p>
+                                        {getStatusMessage(
+                                            order.status
+                                        )}
+                                    </p>
+
+                                )}
+
+                            </div>
 
                         </div>
 
                     );
 
                 })}
-
-            </div>
-
-
-            <div className="order-status-message">
-
-                {order.status === "PENDING" && (
-                    <p>
-                        🕐 Your order has been received.
-                    </p>
-                )}
-
-                {order.status === "PREPARING" && (
-                    <p>
-                        👨‍🍳 Your food is being prepared.
-                    </p>
-                )}
-
-                {order.status === "READY" && (
-                    <p>
-                        🔔 Your order is ready!
-                    </p>
-                )}
-
-                {order.status === "COMPLETED" && (
-                    <p>
-                        🎉 Your order has been completed.
-                    </p>
-                )}
-
-                {order.status === "CANCELLED" && (
-                    <p>
-                        ❌ Your order has been cancelled.
-                    </p>
-                )}
 
             </div>
 

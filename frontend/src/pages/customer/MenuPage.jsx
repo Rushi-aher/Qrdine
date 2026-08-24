@@ -17,12 +17,14 @@ const MenuPage = () => {
     const tableId = searchParams.get("table");
 
     const [menuData, setMenuData] = useState(null);
-
     const [loading, setLoading] = useState(true);
-
     const [error, setError] = useState("");
 
     const [selectedCategory, setSelectedCategory] = useState("All");
+
+    // Search
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [searchText, setSearchText] = useState("");
 
 
     useEffect(() => {
@@ -30,7 +32,6 @@ const MenuPage = () => {
         if (!tableId) {
 
             setError("Table information is missing.");
-
             setLoading(false);
 
             return;
@@ -38,6 +39,14 @@ const MenuPage = () => {
         }
 
         loadMenu();
+
+    }, [tableId]);
+
+
+    // Always start menu from the top
+    useEffect(() => {
+
+        window.scrollTo(0, 0);
 
     }, [tableId]);
 
@@ -129,21 +138,60 @@ const MenuPage = () => {
     const getImageUrl = (imagePath) => {
 
         if (!imagePath) {
-
             return "";
-
         }
 
         if (
             imagePath.startsWith("http://") ||
             imagePath.startsWith("https://")
         ) {
-
             return imagePath;
-
         }
 
         return `${import.meta.env.VITE_API_URL}/${imagePath}`;
+
+    };
+
+
+    // Search food items
+    const searchedCategories = filteredCategories
+        .map((category) => {
+
+            const items = category.items.filter((food) => {
+
+                if (!searchText.trim()) {
+                    return true;
+                }
+
+                return food.name
+                    .toLowerCase()
+                    .includes(
+                        searchText.toLowerCase()
+                    );
+
+            });
+
+            return {
+                ...category,
+                items
+            };
+
+        })
+        .filter(
+            (category) =>
+                category.items.length > 0
+        );
+
+
+    const handleSearchToggle = () => {
+
+        setSearchOpen(
+            previous => !previous
+        );
+
+        if (searchOpen) {
+            setSearchText("");
+        }
 
     };
 
@@ -153,6 +201,9 @@ const MenuPage = () => {
         <div className="menu-page">
 
             <CustomerNavbar />
+
+
+            {/* Restaurant Banner */}
 
             <div className="restaurant-banner">
 
@@ -178,72 +229,147 @@ const MenuPage = () => {
             </div>
 
 
+            {/* Category Bar + Search */}
+
             <div className="category-bar">
 
-                <button
-                    className={
-                        selectedCategory === "All"
-                            ? "active"
-                            : ""
-                    }
-                    onClick={() =>
-                        setSelectedCategory("All")
-                    }
-                >
-                    All
-                </button>
-
-
-                {categories.map((category) => (
+                <div className="category-list">
 
                     <button
-                        key={category.id}
                         className={
-                            selectedCategory === category.id
+                            selectedCategory === "All"
                                 ? "active"
                                 : ""
                         }
                         onClick={() =>
-                            setSelectedCategory(category.id)
+                            setSelectedCategory("All")
                         }
                     >
-                        {category.name}
+                        All
                     </button>
 
-                ))}
+
+                    {categories.map((category) => (
+
+                        <button
+                            key={category.id}
+                            className={
+                                selectedCategory === category.id
+                                    ? "active"
+                                    : ""
+                            }
+                            onClick={() =>
+                                setSelectedCategory(
+                                    category.id
+                                )
+                            }
+                        >
+                            {category.name}
+                        </button>
+
+                    ))}
+
+                </div>
+
+
+                {/* Search */}
+
+                <div
+                    className={`menu-search ${
+                        searchOpen
+                            ? "open"
+                            : ""
+                    }`}
+                >
+
+                    {searchOpen && (
+
+                        <input
+                            type="text"
+                            placeholder="Search food..."
+                            value={searchText}
+                            onChange={(e) =>
+                                setSearchText(
+                                    e.target.value
+                                )
+                            }
+                        />
+
+                    )}
+
+
+                    <button
+                        className="search-toggle"
+                        onClick={
+                            handleSearchToggle
+                        }
+                        aria-label="Search"
+                    >
+                        {searchOpen
+                            ? "✕"
+                            : "⌕"
+                        }
+                    </button>
+
+                </div>
 
             </div>
 
 
+            {/* Food Grid */}
+
             <div className="food-grid">
 
-                {filteredCategories.map((category) =>
+                {searchedCategories.length > 0 ? (
 
-                    category.items.map((food) => (
+                    searchedCategories.map(
+                        (category) =>
 
-                        <FoodCard
-                            key={food.id}
-                            food={{
-                                ...food,
-                                image: getImageUrl(
-                                    food.image
-                                ),
-                            }}
-                        />
+                            category.items.map(
+                                (food) => (
 
-                    ))
+                                    <FoodCard
+                                        key={food.id}
+                                        food={{
+                                            ...food,
+                                            image:
+                                                getImageUrl(
+                                                    food.image
+                                                ),
+                                        }}
+                                    />
+
+                                )
+                            )
+
+                    )
+
+                ) : (
+
+                    <div className="no-food-results">
+
+                        <h3>
+                            No food found
+                        </h3>
+
+                        <p>
+                            Try searching for
+                            something else.
+                        </p>
+
+                    </div>
 
                 )}
 
             </div>
 
 
-            {/* Current order status */}
+            {/* Current Order Status */}
 
             <OrderStatusTracker />
 
 
-            {/* Floating cart */}
+            {/* Floating Cart */}
 
             <FloatingCart />
 

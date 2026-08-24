@@ -1,62 +1,160 @@
 .food-card {
     background: var(--surface);
+
     color: var(--text);
+
     border-radius: 18px;
+
     overflow: hidden;
+
     box-shadow: var(--shadow-card);
+
     transition: 0.3s ease;
 }
 
 .food-card:hover {
     transform: translateY(-6px);
+
     box-shadow: var(--shadow-hover);
 }
 
+
+/* =========================
+   Image
+========================= */
+
 .food-card img {
     width: 100%;
+
     height: 180px;
+
     object-fit: cover;
+
     display: block;
 }
+
+
+/* =========================
+   Content
+========================= */
 
 .food-content {
     padding: 18px;
 }
 
+
 .food-content h3 {
-    margin: 0 0 10px;
+    margin: 0 0 8px;
+
     font-size: 20px;
+
     color: var(--text);
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 }
 
-.food-content p {
+
+/* =========================
+   Description
+========================= */
+
+.food-description {
+    height: 43px;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+
+.food-description p {
     color: var(--text-light);
+
     font-size: 14px;
+
     line-height: 1.5;
+
     margin: 0;
 }
 
-.food-bottom {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+.food-description.expanded {
+    height: auto;
 }
+
+
+/* Read More */
+
+.read-more-btn {
+    border: none;
+
+    background: transparent;
+
+    padding: 3px 0 0;
+
+    color: var(--primary);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.read-more-btn:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   Bottom
+========================= */
+
+.food-bottom {
+    margin-top: 15px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
 
 .food-bottom > span {
     color: var(--primary);
+
     font-size: 18px;
+
     font-weight: bold;
 }
 
+
+/* =========================
+   Add Button
+========================= */
+
 .add-btn {
     border: none;
+
     background: var(--primary);
+
     color: white;
+
     padding: 10px 18px;
+
     border-radius: 12px;
+
     cursor: pointer;
+
     font-weight: 600;
+
     transition: 0.2s ease;
 }
 
@@ -64,46 +162,176 @@
     background: var(--primary-dark);
 }
 
+
+/* =========================
+   Quantity
+========================= */
+
 .quantity-box {
     display: flex;
+
     align-items: center;
-    gap: 12px;
+
+    gap: 8px;
+
     background: var(--primary);
+
     border-radius: 12px;
-    padding: 8px 12px;
+
+    padding: 7px 9px;
 }
+
 
 .quantity-box button {
     background: transparent;
+
     border: none;
+
     color: white;
-    font-size: 20px;
+
+    font-size: 19px;
+
     cursor: pointer;
-    width: 25px;
+
+    width: 22px;
+
     padding: 0;
 }
 
-.quantity-box button:hover {
-    opacity: 0.8;
-}
 
 .quantity-box span {
     color: white;
+
     font-weight: bold;
-    min-width: 20px;
+
+    min-width: 18px;
+
     text-align: center;
 }
 
+
+/* =========================
+   Mobile
+========================= */
+
 @media (max-width: 600px) {
-    .food-card img {
-        height: 160px;
+
+    .food-card {
+        border-radius: 13px;
     }
+
+
+    .food-card:hover {
+        transform: none;
+    }
+
+
+    .food-card img {
+        height: 115px;
+    }
+
 
     .food-content {
-        padding: 15px;
+        padding: 10px;
     }
 
+
     .food-content h3 {
-        font-size: 18px;
+        font-size: 15px;
+
+        margin-bottom: 6px;
     }
+
+
+    .food-description {
+        height: 37px;
+    }
+
+
+    .food-description p {
+        font-size: 11px;
+
+        line-height: 1.35;
+    }
+
+
+    .read-more-btn {
+        font-size: 10px;
+    }
+
+
+    .food-bottom {
+        margin-top: 9px;
+    }
+
+
+    .food-bottom > span {
+        font-size: 14px;
+    }
+
+
+    .add-btn {
+        padding: 6px 11px;
+
+        border-radius: 8px;
+
+        font-size: 11px;
+    }
+
+
+    .quantity-box {
+        gap: 4px;
+
+        padding: 5px 6px;
+
+        border-radius: 8px;
+    }
+
+
+    .quantity-box button {
+        width: 18px;
+
+        font-size: 16px;
+    }
+
+
+    .quantity-box span {
+        min-width: 15px;
+
+        font-size: 12px;
+    }
+
+}
+
+
+/* =========================
+   Very Small Phones
+========================= */
+
+@media (max-width: 420px) {
+
+    .food-card img {
+        height: 105px;
+    }
+
+
+    .food-content {
+        padding: 8px;
+    }
+
+
+    .food-content h3 {
+        font-size: 14px;
+    }
+
+
+    .food-description p {
+        font-size: 10.5px;
+    }
+
+
+    .food-bottom > span {
+        font-size: 13px;
+    }
+
 }

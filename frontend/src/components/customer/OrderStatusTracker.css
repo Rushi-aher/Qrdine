@@ -1,312 +1,842 @@
-.order-status-tracker {
+/* =========================================================
+   ORDER STATUS TRACKER
+========================================================= */
 
+/* =========================================================
+   MINI FLOATING BUTTON
+========================================================= */
+
+.order-status-mini {
     position: fixed;
+    right: 18px;
+    bottom: 82px;
 
-    right: 24px;
-    bottom: 24px;
+    width: 70px;
+    height: 70px;
 
-    width: 370px;
-    max-width: calc(100vw - 30px);
+    padding: 0;
 
-    padding: 20px;
+    border: none;
+    border-radius: 50%;
 
-    border-radius: 20px;
+    background: var(--surface);
+    color: var(--text);
 
-    background:
-        linear-gradient(
-            145deg,
-            #1f2937,
-            #111827
-        );
-
-    color: white;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.28);
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
 
     z-index: 1000;
 
-    animation:
-        trackerAppear 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    box-shadow:
+        0 8px 24px var(--shadow-card),
+        0 0 0 3px var(--background);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.order-status-mini:hover {
+    transform: scale(1.05);
+
+    box-shadow:
+        0 10px 28px var(--shadow-hover),
+        0 0 0 3px var(--background);
 }
 
 
-/* Header */
+/* =========================================================
+   ROTATING GREEN RING
+========================================================= */
 
-.order-status-header {
+.status-spinner {
+    position: absolute;
+    inset: 2px;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            var(--primary),
+            transparent 65%,
+            var(--primary)
+        );
+
+    animation: rotateStatus 1.5s linear infinite;
+}
+
+
+/* =========================================================
+   STATIC CENTER
+========================================================= */
+
+.status-spinner-inner {
+    position: relative;
+    z-index: 2;
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
 
     display: flex;
-
     align-items: center;
+    justify-content: center;
 
-    justify-content: space-between;
+    padding: 5px;
 
-    margin-bottom: 22px;
-
+    box-sizing: border-box;
 }
 
-
-.order-status-header h3 {
-
-    margin: 0;
-
-    font-size: 17px;
-
-    color: white;
-
-}
-
-
-.order-status-header p {
-
-    margin: 5px 0 0;
-
-    font-size: 12px;
-
-    color: #9ca3af;
-
-}
-
-
-.current-status {
-
-    padding: 7px 11px;
-
-    border-radius: 20px;
-
-    background: rgba(245, 158, 11, 0.15);
-
-    color: #fbbf24;
-
-    border: 1px solid rgba(245, 158, 11, 0.25);
-
-    font-size: 11px;
+.status-spinner-inner span {
+    font-size: 9px;
+    line-height: 1.15;
 
     font-weight: 700;
 
+    text-align: center;
+
+    color: var(--primary);
 }
 
 
-/* Progress */
+/* =========================================================
+   CLICK INDICATOR
+========================================================= */
+
+.order-status-mini::after {
+    content: "↗";
+
+    position: absolute;
+
+    right: -2px;
+    bottom: 0;
+
+    width: 20px;
+    height: 20px;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+    color: white;
+
+    border: 2px solid var(--surface);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   EXPANDED TRACKER
+========================================================= */
+
+.order-status-tracker {
+    position: fixed;
+
+    right: 20px;
+    bottom: 20px;
+
+    width: 350px;
+    max-width: calc(100vw - 30px);
+
+    max-height: min(600px, calc(100vh - 40px));
+
+    overflow-y: auto;
+
+    padding: 16px;
+
+    box-sizing: border-box;
+
+    background: var(--surface);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 18px;
+
+    box-shadow:
+        0 18px 45px var(--shadow-hover);
+
+    z-index: 1000;
+
+    animation: trackerAppear 0.22s ease;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.order-status-tracker::-webkit-scrollbar {
+    width: 4px;
+}
+
+.order-status-tracker::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.order-status-tracker::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.tracker-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 2px 2px 13px;
+
+    border-bottom: 1px solid var(--border);
+
+    margin-bottom: 12px;
+}
+
+.tracker-top h3 {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    color: var(--text);
+}
+
+.tracker-top p {
+    margin: 3px 0 0;
+
+    font-size: 10px;
+
+    color: var(--text-light);
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.tracker-close {
+    width: 29px;
+    height: 29px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    border: 1px solid var(--border);
+
+    background: var(--background);
+
+    color: var(--text-light);
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 12px;
+
+    transition: 0.2s ease;
+}
+
+.tracker-close:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+    background: var(--surface);
+}
+
+
+/* =========================================================
+   ORDERS LIST
+========================================================= */
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+/* =========================================================
+   ORDER CARD
+========================================================= */
+
+.order-card {
+    padding: 13px;
+
+    background: var(--background);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.order-card:hover {
+    box-shadow:
+        0 5px 15px var(--shadow-card);
+}
+
+
+/* =========================================================
+   ORDER HEADER
+========================================================= */
+
+.order-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+}
+
+.order-header h4 {
+    margin: 0;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: var(--text);
+}
+
+.order-header span:not(.order-status-badge) {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 9px;
+
+    color: var(--text-light);
+}
+
+
+/* =========================================================
+   STATUS BADGE
+========================================================= */
+
+.order-status-badge {
+    flex-shrink: 0;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
+
+    color: var(--primary);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 10%,
+            transparent
+        );
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 25%,
+            transparent
+        );
+}
+
+
+/* =========================================================
+   ORDER ITEMS
+========================================================= */
+
+.order-items {
+    margin-bottom: 12px;
+
+    padding: 8px 9px;
+
+    border-radius: 9px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.order-item {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    font-size: 10px;
+
+    color: var(--text);
+}
+
+.order-item span:first-child {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+.order-item span:last-child {
+    flex-shrink: 0;
+
+    font-weight: 700;
+
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   STATUS PROGRESS
+========================================================= */
 
 .status-progress {
-
     position: relative;
 
     display: flex;
-
     justify-content: space-between;
 
-    margin-bottom: 20px;
-
+    margin: 3px 2px 11px;
 }
 
-
-/* Connecting line */
-
 .status-progress::before {
-
     content: "";
 
     position: absolute;
 
-    left: 15px;
-    right: 15px;
-    top: 15px;
+    left: 12px;
+    right: 12px;
 
-    height: 3px;
+    top: 11px;
 
-    background: #374151;
+    height: 2px;
+
+    background: var(--border);
 
     z-index: 0;
-
 }
 
 
-.status-step {
+/* =========================================================
+   STATUS STEP
+========================================================= */
 
+.status-step {
     position: relative;
 
     z-index: 1;
 
     display: flex;
-
     flex-direction: column;
 
     align-items: center;
 
-    gap: 7px;
+    gap: 4px;
 
-    color: #6b7280;
+    min-width: 35px;
 
-    font-size: 9px;
+    color: var(--text-light);
 
-    font-weight: 500;
+    font-size: 6.5px;
 
+    font-weight: 600;
 }
 
 
-.status-circle {
+/* =========================================================
+   STATUS CIRCLE
+========================================================= */
 
-    width: 30px;
-    height: 30px;
+.status-circle {
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    border: 2px solid var(--border);
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    border-radius: 50%;
+    color: var(--text-light);
 
-    background: #374151;
-
-    border: 3px solid #1f2937;
-
-    color: #9ca3af;
-
-    font-size: 11px;
+    font-size: 8px;
 
     font-weight: 700;
 
-    transition: all 0.3s ease;
+    box-sizing: border-box;
 
+    transition: 0.25s ease;
 }
 
+
+/* =========================================================
+   COMPLETED STATUS
+========================================================= */
 
 .status-step.completed {
-
-    color: #86efac;
-
+    color: var(--primary);
 }
 
-
 .status-step.completed .status-circle {
+    background: var(--primary);
 
-    background: #16a34a;
-
-    border-color: #14532d;
+    border-color: var(--primary);
 
     color: white;
 
     box-shadow:
-        0 0 0 4px rgba(22, 163, 74, 0.15);
-
+        0 0 0 3px
+        color-mix(
+            in srgb,
+            var(--primary) 10%,
+            transparent
+        );
 }
 
 
-/* Current active step */
-
-.status-step.completed:last-child .status-circle {
-
-    animation: statusPulse 1.5s infinite;
-
-}
-
-
-/* Message */
+/* =========================================================
+   STATUS MESSAGE
+========================================================= */
 
 .order-status-message {
+    padding: 8px 10px;
 
-    padding: 13px 15px;
+    border-radius: 9px;
 
-    border-radius: 12px;
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 6%,
+            var(--surface)
+        );
 
-    background: rgba(255, 255, 255, 0.06);
-
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 12%,
+            var(--border)
+        );
 
     text-align: center;
-
 }
-
 
 .order-status-message p {
-
     margin: 0;
 
-    color: #e5e7eb;
+    font-size: 9px;
 
-    font-size: 13px;
+    color: var(--text-light);
 
+    line-height: 1.3;
 }
 
 
-/* Animation */
+/* =========================================================
+   ANIMATIONS
+========================================================= */
 
-@keyframes trackerAppear {
-
+@keyframes rotateStatus {
     from {
-
-        opacity: 0;
-
-        transform:
-            translateY(20px)
-            scale(0.96);
-
+        transform: rotate(0deg);
     }
 
     to {
+        transform: rotate(360deg);
+    }
+}
 
+@keyframes trackerAppear {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(12px)
+            scale(0.97);
+    }
+
+    to {
         opacity: 1;
 
         transform:
             translateY(0)
             scale(1);
-
     }
-
 }
 
 
-@keyframes statusPulse {
-
-    0% {
-
-        box-shadow:
-            0 0 0 0 rgba(22, 163, 74, 0.5);
-
-    }
-
-    70% {
-
-        box-shadow:
-            0 0 0 8px rgba(22, 163, 74, 0);
-
-    }
-
-    100% {
-
-        box-shadow:
-            0 0 0 0 rgba(22, 163, 74, 0);
-
-    }
-
-}
-
-
-/* Mobile */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 600px) {
 
-    .order-status-tracker {
+    .order-status-mini {
+        right: 13px;
+        bottom: 75px;
 
-        left: 15px;
-        right: 15px;
-        bottom: 15px;
+        width: 62px;
+        height: 62px;
+    }
+
+    .status-spinner-inner {
+        width: 52px;
+        height: 52px;
+    }
+
+    .status-spinner-inner span {
+        font-size: 8px;
+    }
+
+    .order-status-mini::after {
+        width: 18px;
+        height: 18px;
+
+        right: -2px;
+        bottom: 0;
+
+        font-size: 10px;
+    }
+
+
+    /* Expanded tracker */
+
+    .order-status-tracker {
+        left: 10px;
+        right: 10px;
+
+        bottom: 65px;
 
         width: auto;
+        max-width: none;
 
-        padding: 16px;
+        max-height:
+            calc(100vh - 80px);
 
+        padding: 13px;
+
+        border-radius: 16px;
+    }
+
+
+    /* Header */
+
+    .tracker-top {
+        padding-bottom: 11px;
+        margin-bottom: 10px;
+    }
+
+    .tracker-top h3 {
+        font-size: 16px;
+    }
+
+    .tracker-top p {
+        font-size: 9px;
+    }
+
+
+    /* Close */
+
+    .tracker-close {
+        width: 28px;
+        height: 28px;
+
+        font-size: 11px;
+    }
+
+
+    /* Orders */
+
+    .orders-list {
+        gap: 8px;
+    }
+
+    .order-card {
+        padding: 11px;
+
+        border-radius: 12px;
+    }
+
+
+    /* Header */
+
+    .order-header {
+        margin-bottom: 9px;
+    }
+
+    .order-header h4 {
+        font-size: 12px;
+    }
+
+    .order-header span:not(.order-status-badge) {
+        font-size: 8px;
+    }
+
+
+    /* Badge */
+
+    .order-status-badge {
+        padding: 4px 7px;
+
+        font-size: 7px;
+    }
+
+
+    /* Items */
+
+    .order-items {
+        padding: 7px 8px;
+
+        margin-bottom: 11px;
+    }
+
+    .order-item {
+        font-size: 9px;
+    }
+
+
+    /* Progress */
+
+    .status-progress {
+        margin-bottom: 10px;
+    }
+
+    .status-progress::before {
+        left: 11px;
+        right: 11px;
+
+        top: 10.5px;
+    }
+
+    .status-circle {
+        width: 21px;
+        height: 21px;
+
+        font-size: 8px;
     }
 
     .status-step {
+        min-width: 33px;
 
-        font-size: 8px;
-
+        font-size: 6px;
     }
 
+
+    /* Message */
+
+    .order-status-message {
+        padding: 7px 9px;
+    }
+
+    .order-status-message p {
+        font-size: 8px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .order-status-mini {
+        right: 10px;
+        bottom: 70px;
+
+        width: 58px;
+        height: 58px;
+    }
+
+    .status-spinner-inner {
+        width: 48px;
+        height: 48px;
+    }
+
+    .status-spinner-inner span {
+        font-size: 7px;
+    }
+
+
+    .order-status-tracker {
+        left: 7px;
+        right: 7px;
+
+        bottom: 62px;
+
+        padding: 11px;
+    }
+
+    .tracker-top h3 {
+        font-size: 15px;
+    }
+
+    .order-card {
+        padding: 10px;
+    }
+
+    .order-header h4 {
+        font-size: 11px;
+    }
+
+    .order-status-badge {
+        padding: 4px 6px;
+
+        font-size: 6.5px;
+    }
+
+    .order-item {
+        font-size: 8.5px;
+    }
+
+    .status-circle {
+        width: 20px;
+        height: 20px;
+    }
+
+    .status-step {
+        min-width: 30px;
+
+        font-size: 5.5px;
+    }
 }
