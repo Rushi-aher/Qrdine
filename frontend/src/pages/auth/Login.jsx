@@ -24,7 +24,7 @@ const DEMO_CREDENTIALS = [
     },
     {
         label: "Restaurant Admin Demo",
-        email: "owner@example.com",
+        email: "rushikesh@example.com",
         password: "Password@123",
     },
 ];
