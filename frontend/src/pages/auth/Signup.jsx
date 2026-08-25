@@ -16,8 +16,7 @@ import {
 
 import { signupUser } from "../../services/authService";
 
-import LoadingScreen from "../../components/ui/LoadingScreen";
-
+import LoadingScreen from "../../components/common/LoadingScreen";
 import "../../assets/styles/auth.css";
 
 

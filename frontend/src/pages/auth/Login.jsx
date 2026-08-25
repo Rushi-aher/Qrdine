@@ -12,8 +12,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { loginUser } from "../../services/authService";
 
-import LoadingScreen from "../../components/ui/LoadingScreen";
-
+import LoadingScreen from "../../components/common/LoadingScreen";
 import "../../assets/styles/auth.css";
 
 
