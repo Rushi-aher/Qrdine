@@ -16,6 +16,8 @@ import {
 
 import { signupUser } from "../../services/authService";
 
+import LoadingScreen from "../../components/ui/LoadingScreen";
+
 import "../../assets/styles/auth.css";
 
 
@@ -23,7 +25,7 @@ const Signup = () => {
 
     const navigate = useNavigate();
 
-    const [role, setRole] = useState("customer");
+    const [role, setRole] = useState("CUSTOMER");
 
     const [formData, setFormData] = useState({
         full_name: "",
@@ -49,6 +51,9 @@ const Signup = () => {
     const handleSignup = async (e) => {
 
         e.preventDefault();
+
+        // Prevent multiple submissions
+        if (loading) return;
 
         setError("");
 
@@ -79,6 +84,7 @@ const Signup = () => {
 
         try {
 
+            // Show loading animation immediately
             setLoading(true);
 
 
@@ -141,6 +147,9 @@ const Signup = () => {
 
         <div className="auth-page">
 
+            {/* Loading animation only after Create Account is clicked */}
+            {loading && <LoadingScreen />}
+
 
             <div className="auth-left">
 
@@ -200,11 +209,11 @@ const Signup = () => {
                             options={[
                                 {
                                     label: "Customer",
-                                    value: "customer",
+                                    value: "CUSTOMER",
                                 },
                                 {
                                     label: "Restaurant Admin",
-                                    value: "owner",
+                                    value: "OWNER",
                                 },
                             ]}
                         />

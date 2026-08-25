@@ -6,7 +6,7 @@ class UserCreate(BaseModel):
     full_name: str
     email: EmailStr
     password: str
-    role: Literal["owner", "customer"]
+    role: Literal["OWNER", "CUSTOMER"]
 
 
 class UserLogin(BaseModel):

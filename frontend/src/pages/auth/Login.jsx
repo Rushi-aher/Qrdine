@@ -12,6 +12,8 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { loginUser } from "../../services/authService";
 
+import LoadingScreen from "../../components/ui/LoadingScreen";
+
 import "../../assets/styles/auth.css";
 
 
@@ -32,6 +34,7 @@ const DEMO_CREDENTIALS = [
 const Login = () => {
 
     const [remember, setRemember] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [email, setEmail] = useState("rushikesh@example.com");
     const [password, setPassword] = useState("Password@123");
@@ -44,7 +47,13 @@ const Login = () => {
 
     const handleLogin = async () => {
 
+        // Prevent multiple clicks
+        if (loading) return;
+
         try {
+
+            // Show loading animation immediately
+            setLoading(true);
 
             const response = await loginUser(
                 email,
@@ -93,12 +102,18 @@ const Login = () => {
                 "Login failed"
             );
 
+        } finally {
+
+            setLoading(false);
+
         }
 
     };
 
 
     const fillDemoCredentials = (demo) => {
+
+        if (loading) return;
 
         setEmail(demo.email);
         setPassword(demo.password);
@@ -109,6 +124,10 @@ const Login = () => {
     return (
 
         <div className="auth-page">
+
+            {/* Loading animation only after Login is clicked */}
+            {loading && <LoadingScreen />}
+
 
             <div className="auth-left">
 
@@ -139,6 +158,7 @@ const Login = () => {
                             onClick={() =>
                                 fillDemoCredentials(demo)
                             }
+                            disabled={loading}
                         >
 
                             <span className="demo-credential-label">
@@ -204,8 +224,16 @@ const Login = () => {
                     />
 
 
-                    <Button onClick={handleLogin}>
-                        Login
+                    <Button
+                        onClick={handleLogin}
+                        disabled={loading}
+                    >
+
+                        {loading
+                            ? "Logging in..."
+                            : "Login"
+                        }
+
                     </Button>
 
 
